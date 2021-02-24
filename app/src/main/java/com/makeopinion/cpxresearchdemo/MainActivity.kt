@@ -5,20 +5,24 @@ import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.makeopinion.cpxresearchlib.CPXResearchListener
+import com.makeopinion.cpxresearchlib.models.CPXStyleConfiguration
+import com.makeopinion.cpxresearchlib.models.SurveyPosition
 import com.makeopinion.cpxresearchlib.models.TransactionItem
 
 
 class MainActivity : FragmentActivity() {
     private lateinit var container: FrameLayout
-    private lateinit var button: Button
+    private lateinit var btnToggleList: Button
+    private lateinit var btnNextStyle: Button
+
+    private var surveyFragment = SurveyFragment()
+    private var transactionFragment = TransactionFragment()
+
+    private var currentStyleIndex = 0
 
     companion object {
         private var currentlyShowingSurveys = true
-
-        private var surveyFragment = SurveyFragment()
-        private var transactionFragment = TransactionFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,14 +30,15 @@ class MainActivity : FragmentActivity() {
         setContentView(R.layout.activity_main)
 
         container = findViewById(R.id.fragment_container)
-        button = findViewById(R.id.toggleButton)
+        btnToggleList = findViewById(R.id.toggleButton)
+        btnNextStyle = findViewById(R.id.styleButton)
 
         supportFragmentManager
             .beginTransaction()
             .add(R.id.fragment_container, surveyFragment)
             .commit()
 
-        button.setOnClickListener {
+        btnToggleList.setOnClickListener {
             currentlyShowingSurveys = !currentlyShowingSurveys
             if (currentlyShowingSurveys) {
                 supportFragmentManager
@@ -48,6 +53,10 @@ class MainActivity : FragmentActivity() {
                     .add(R.id.fragment_container, transactionFragment)
                     .commit()
             }
+        }
+
+        btnNextStyle.setOnClickListener {
+            switchToNextStyle()
         }
 
         (application as? CPXApplication)?.let {
@@ -70,6 +79,24 @@ class MainActivity : FragmentActivity() {
                     it.cpxResearch().requestSurveyUpdate(true)
                 }
             })
+        }
+    }
+
+    private fun switchToNextStyle() {
+        currentStyleIndex++
+
+        if (currentStyleIndex == SurveyPosition.values().size)
+            currentStyleIndex = 0
+
+        (application as? CPXApplication)?.cpxResearch()?.let {
+            val style = CPXStyleConfiguration(
+                    SurveyPosition.values()[currentStyleIndex],
+                    "Umfragen",
+                    20,
+                    "#ffffff",
+                    "ffaf20",
+                    true)
+            it.setStyle(style)
         }
     }
 }
