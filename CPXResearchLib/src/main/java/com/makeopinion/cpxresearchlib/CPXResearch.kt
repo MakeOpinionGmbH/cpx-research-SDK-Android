@@ -15,13 +15,12 @@ import com.makeopinion.cpxresearchlib.views.CPXWebActivityListener
 import com.makeopinion.cpxresearchlib.views.CPXWebViewActivity
 
 class CPXResearch private constructor(
-    private val context: Context,
     private val configuration: CPXConfiguration
 ) {
     companion object {
         fun init(context: Context, configuration: CPXConfiguration): CPXResearch {
             AndroidNetworking.initialize(context)
-            return CPXResearch(context, configuration)
+            return CPXResearch(configuration)
         }
     }
 
@@ -102,8 +101,8 @@ class CPXResearch private constructor(
     fun markTransactionAsPaid(transactionId: String, messageId: String) {
         val queryItems = HashMap<String, String?>()
         queryItems["transaction_mode"] = "full"
-        queryItems["transaction_set_paid"] = "1"
-        queryItems["message_id"] = messageId
+        queryItems["transaction_set_paid"] = "true"
+        queryItems["cpx_message_id"] = messageId
         queryItems["secure_hash"] =
             CPXHash.md5("${configuration.extUserId}-${configuration.secureKey}")
 
@@ -115,7 +114,12 @@ class CPXResearch private constructor(
 
         unpaidTransactions
             .find { it.transId == transactionId }
-            ?.let { unpaidTransactions.remove(it) }
+            ?.let {
+                unpaidTransactions.remove(it)
+                listeners.forEach { listener ->
+                    listener.onTransactionsUpdated(unpaidTransactions)
+                }
+            }
     }
 
     fun registerListener(listener: CPXResearchListener) {
