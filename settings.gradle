@@ -1,0 +1,3 @@
+include ':CPXResearchLib'
+include ':app'
+rootProject.name = "CPXResearchDemo"
