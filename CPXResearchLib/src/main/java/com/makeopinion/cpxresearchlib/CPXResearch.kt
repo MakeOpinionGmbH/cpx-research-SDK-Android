@@ -145,7 +145,7 @@ class CPXResearch private constructor(
                 surveys = response.surveys.toMutableList()
                 listeners.forEach { it.onSurveysUpdated() }
 
-                if (response.transactions.isNotEmpty()) {
+                if (response.transactions != null && response.transactions.isNotEmpty()) {
                     unpaidTransactions = response.transactions.toMutableList()
                     listeners.forEach { it.onTransactionsUpdated(unpaidTransactions) }
                 }
