@@ -26,16 +26,16 @@ class CPXApplication: Application() {
     private fun initCPX(context: Context) {
         val style = CPXStyleConfiguration(
             SurveyPosition.SideRightNormal,
-            "Verdiene bis zu 3 Coins in<br> 4 Minuten mit Umfragen",
+            "Earn up to 3 Coins in<br> 4 minutes with surveys",
             20,
             "#ffffff",
             "ffaf20",
             true)
 
         val config = CPXConfigurationBuilder(
-            "7298",
-            "1",
-            "1R8kvYZ4joIbhCMPeVf0zaaB2GXSHSVs",
+            "",
+            "",
+            "",
             style)
             .build()
 

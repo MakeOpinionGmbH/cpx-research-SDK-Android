@@ -91,7 +91,7 @@ class MainActivity : FragmentActivity() {
         (application as? CPXApplication)?.cpxResearch()?.let {
             val style = CPXStyleConfiguration(
                     SurveyPosition.values()[currentStyleIndex],
-                    "Umfragen",
+                    "New surveys available",
                     20,
                     "#ffffff",
                     "ffaf20",

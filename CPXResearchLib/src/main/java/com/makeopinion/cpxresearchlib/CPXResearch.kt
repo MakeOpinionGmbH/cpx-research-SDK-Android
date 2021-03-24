@@ -104,7 +104,7 @@ class CPXResearch private constructor(
         queryItems["transaction_set_paid"] = "true"
         queryItems["cpx_message_id"] = messageId
         queryItems["secure_hash"] =
-            CPXHash.md5("${configuration.extUserId}-${configuration.secureKey}")
+            CPXHash.md5("${configuration.extUserId}-${configuration.secureHash}")
 
         api.requestSurveysFromApi(
             configuration,
@@ -141,16 +141,18 @@ class CPXResearch private constructor(
 
     private val onSurveyUpdateHandler = object : ResponseListener {
         override fun onSurveyResponse(response: SurveyModel) {
-            surveys = response.surveys.toMutableList()
-            listeners.forEach { it.onSurveysUpdated() }
+            if (response != null && response.surveys != null) {
+                surveys = response.surveys.toMutableList()
+                listeners.forEach { it.onSurveysUpdated() }
 
-            if (response.transactions.isNotEmpty()) {
-                unpaidTransactions = response.transactions.toMutableList()
-                listeners.forEach { it.onTransactionsUpdated(unpaidTransactions) }
+                if (response.transactions.isNotEmpty()) {
+                    unpaidTransactions = response.transactions.toMutableList()
+                    listeners.forEach { it.onTransactionsUpdated(unpaidTransactions) }
+                }
+
+                cpxText = response.text
+                installBanner()
             }
-
-            cpxText = response.text
-            installBanner()
         }
 
         override fun onError(anError: ANError) {

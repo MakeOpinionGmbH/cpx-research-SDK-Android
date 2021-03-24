@@ -5,19 +5,19 @@ import com.makeopinion.cpxresearchlib.misc.toPx
 import java.io.Serializable
 
 class CPXConfiguration(
-    val appId: String,
-    val extUserId: String,
-    val secureKey: String,
-    val email: String?,
-    val subId1: String?,
-    val subId2: String?,
-    val extraInfo: Array<String>?,
-    var style: CPXStyleConfiguration
+        val appId: String,
+        val extUserId: String,
+        val secureHash: String,
+        val email: String?,
+        val subId1: String?,
+        val subId2: String?,
+        val extraInfo: Array<String>?,
+        var style: CPXStyleConfiguration
 ): Serializable {
         constructor(builder: CPXConfigurationBuilder) : this(
                 builder.appId,
                 builder.extUserId,
-                builder.secureKey,
+                builder.secureHash,
                 builder.email,
                 builder.subId1,
                 builder.subId2,
@@ -53,7 +53,7 @@ class CPXConfiguration(
 
 class CPXConfigurationBuilder(val appId: String,
                               val extUserId: String,
-                              val secureKey: String,
+                              val secureHash: String,
                               val style: CPXStyleConfiguration
 ) {
         var email: String? = null

@@ -15,10 +15,9 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 - [Installation](#installation)
 - [Usage Kotlin](#usage)
 
-
 # Prerequisites
 
-- Android SDK 23 (Marshmallow) or newer
+- Android SDK 21 (Lollipop) or newer
 
 # Installation
 
@@ -37,7 +36,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:CPX-Research-Android-SDK:0.8.0'
+	implementation 'com.github.MakeOpinionGmbH:CPX-research-Android-SDK:0.9.0'
 }
 ```
 
@@ -50,7 +49,7 @@ Enter the following code early in your App's life cycle, for example in the App'
 ```kotlin
 val style = CPXStyleConfiguration(
             SurveyPosition.SideRightNormal,
-            "Verdiene bis zu 3 Coins in<br> 4 Minuten mit Umfragen",
+            "Earn up to 3 Coins in<br> 4 minutes with surveys",
             20,
             "#ffffff",
             "ffaf20",
