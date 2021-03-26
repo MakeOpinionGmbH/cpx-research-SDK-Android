@@ -1,5 +1,6 @@
 package com.makeopinion.cpxresearchlib.views
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -128,19 +129,18 @@ class CPXWebViewActivity : Activity() {
         btnClose = findViewById(R.id.btn_close)
         btnSettings = findViewById(R.id.btn_settings)
         btnHelp = findViewById(R.id.btn_help)
+
+        setupContent()
+        setupWebView()
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (intent.getBooleanExtra("onlyCloseButtonVisible", true)) {
-            btnHelp?.visibility = View.GONE
-            btnSettings?.visibility = View.GONE
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        listener?.onDidClose()
+    }
 
-        intent.getStringExtra("screenshot")?.let {
-            screenshot = loadScreenshot(this, it)
-        }
-
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun setupWebView() {
         webView?.let { webView ->
             webView.settings.javaScriptEnabled = true
             webView.settings.javaScriptCanOpenWindowsAutomatically = false
@@ -168,10 +168,10 @@ class CPXWebViewActivity : Activity() {
 
                     val response = client.newCall(request).execute()
 
-                    response.body()?.let { body ->
+                    response.body()?.let { content ->
                         runOnUiThread {
                             webView.loadDataWithBaseURL(intent.getStringExtra("url"),
-                                    body.string(),
+                                    content.string(),
                                     "text/html",
                                     "UTF-8",
                                     null)
@@ -181,6 +181,17 @@ class CPXWebViewActivity : Activity() {
             } ?: run {
                 webView.loadUrl(intent.getStringExtra("url"))
             }
+        }
+    }
+
+    private fun setupContent() {
+        if (intent.getBooleanExtra("onlyCloseButtonVisible", true)) {
+            btnHelp?.visibility = View.GONE
+            btnSettings?.visibility = View.GONE
+        }
+
+        intent.getStringExtra("screenshot")?.let {
+            screenshot = loadScreenshot(this, it)
         }
 
         btnClose?.let {
@@ -211,11 +222,6 @@ class CPXWebViewActivity : Activity() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        listener?.onDidClose()
     }
 }
 
