@@ -29,7 +29,7 @@ class CPXApplication: Application() {
             "Earn up to 3 Coins in<br> 4 minutes with surveys",
             20,
             "#ffffff",
-            "ffaf20",
+            "#ffaf20",
             true)
 
         val config = CPXConfigurationBuilder(

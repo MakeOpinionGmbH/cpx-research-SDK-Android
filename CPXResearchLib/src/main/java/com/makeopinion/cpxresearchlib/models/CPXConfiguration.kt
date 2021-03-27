@@ -39,7 +39,9 @@ class CPXConfiguration(
                         Pair("emptycolor", null),
                         Pair("transparent", "1"),
                         Pair("text", style.text),
-                        Pair("textsize", "${style.textSize.toPx()}px")
+                        Pair("textsize", "${style.textSize.toPx()}px"),
+                        Pair("sdk", "android"),
+                        Pair("sdk_version", "0.9.3")
                 )
 
                 email?.let { result["email"] = it }
