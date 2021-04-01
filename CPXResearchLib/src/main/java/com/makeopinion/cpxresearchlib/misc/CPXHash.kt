@@ -14,7 +14,7 @@ class CPXHash {
             return BigInteger(1, md.digest(input.toByteArray())).toString(16).padStart(32, '0')
         }
 
-        fun checkPlayServices(context: Context): Boolean {
+        /*fun checkPlayServices(context: Context): Boolean {
 
             val apiAvailability: GoogleApiAvailability = GoogleApiAvailability.getInstance()
             val resultCode: Int = apiAvailability.isGooglePlayServicesAvailable(context)
@@ -29,6 +29,6 @@ class CPXHash {
             }
             Log.i("CPX", "This device is supported.")
             return true
-        }
+        }*/
     }
 }
