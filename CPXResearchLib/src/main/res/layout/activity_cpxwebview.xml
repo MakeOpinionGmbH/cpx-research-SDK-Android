@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".views.CPXWebViewActivity"
     android:orientation="horizontal"
-    android:background="@android:color/darker_gray">
+    android:background="#BB000000">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -17,21 +17,24 @@
             android:layout_height="36dp"
             android:layout_margin="2dp"
             android:padding="8dp"
-            android:src="@drawable/ic_close"/>
+            android:src="@drawable/ic_close"
+            android:background="@drawable/shape"/>
         <ImageView
             android:id="@+id/btn_settings"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_margin="2dp"
             android:padding="8dp"
-            android:src="@drawable/ic_settings"/>
+            android:src="@drawable/ic_settings"
+            android:background="@drawable/shape"/>
         <ImageView
             android:id="@+id/btn_help"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:padding="8dp"
             android:src="@drawable/ic_help"
-            android:layout_margin="2dp"/>
+            android:layout_margin="2dp"
+            android:background="@drawable/shape"/>
     </LinearLayout>
 
     <WebView

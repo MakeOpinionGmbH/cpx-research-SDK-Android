@@ -5,7 +5,7 @@
     <application>
         <activity
             android:name=".views.CPXWebViewActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:configChanges="orientation|screenSize"/>
     </application>
 

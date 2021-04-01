@@ -7,7 +7,6 @@ import android.os.Looper
 import android.util.Log
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
-import com.makeopinion.cpxresearchlib.misc.CPXHash
 import com.makeopinion.cpxresearchlib.models.*
 import com.makeopinion.cpxresearchlib.views.CPXBannerViewHandler
 import com.makeopinion.cpxresearchlib.views.CPXBannerViewHandlerListener
@@ -54,6 +53,7 @@ class CPXResearch private constructor(
     fun setSurveyVisibleIfAvailable(isVisible: Boolean, onActivity: Activity) {
         showBannerIfSurveysAreAvailable = isVisible
         if (isVisible) {
+            requestSurveyUpdate(true)
             bannerViewHandler = CPXBannerViewHandler(onActivity,
                 configuration,
                 object : CPXBannerViewHandlerListener {
@@ -103,8 +103,6 @@ class CPXResearch private constructor(
         queryItems["transaction_mode"] = "full"
         queryItems["transaction_set_paid"] = "true"
         queryItems["cpx_message_id"] = messageId
-        queryItems["secure_hash"] =
-            CPXHash.md5("${configuration.extUserId}-${configuration.secureHash}")
 
         api.requestSurveysFromApi(
             configuration,

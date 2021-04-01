@@ -1,5 +1,6 @@
 package com.makeopinion.cpxresearchlib.models
 
+import com.makeopinion.cpxresearchlib.misc.CPXHash
 import com.makeopinion.cpxresearchlib.misc.prefixedDot
 import com.makeopinion.cpxresearchlib.misc.toPx
 import java.io.Serializable
@@ -39,9 +40,10 @@ class CPXConfiguration(
                         Pair("emptycolor", null),
                         Pair("transparent", "1"),
                         Pair("text", style.text),
-                        Pair("textsize", "${style.textSize.toPx()}px"),
+                        Pair("textsize", "${style.textSize.toPx()}"),
                         Pair("sdk", "android"),
-                        Pair("sdk_version", "0.9.3")
+                        Pair("sdk_version", "0.9.4"),
+                        Pair("secure_hash", CPXHash.md5("${extUserId}-${secureHash}"))
                 )
 
                 email?.let { result["email"] = it }
