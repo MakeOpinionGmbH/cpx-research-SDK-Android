@@ -86,7 +86,7 @@ cpxResearch = CPXResearch.Companion.init(this, config);
 
 ## Using the SDK's banner for overlays
 
-In your Activity activate the automatic banner display and set the delegate to handle CPX Research events.
+In your Activity activate the automatic banner display and set the delegate to handle CPX Research events. For Kotlin
 
 ```kotlin
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,25 +95,21 @@ In your Activity activate the automatic banner display and set the delegate to h
 
         (application as? CPXApplication)?.let {
             it.cpxResearch().setSurveyVisibleIfAvailable(true, this)
-            it.cpxResearch().registerListener(object : CPXResearchListener {
-                override fun onSurveysUpdated() {
-                    Log.d("CPX", "surveys updated.")
-                }
-
-                override fun onTransactionsUpdated(unpaidTransactions: List<TransactionItem>) {
-                    Log.d("CPX", "transactions updated.")
-                }
-
-                override fun onSurveysDidOpen() {
-                    Log.d("CPX", "surveys opened.")
-                }
-
-                override fun onSurveysDidClose() {
-                    Log.d("CPX", "surveys closed.")
-                }
-            })
         }
     }
+```
+
+or Java
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    CPXApplication app = (CPXApplication) getApplication();
+    app.getCpxResearch().setSurveyVisibleIfAvailable(true, this);
+}
 ```
 
 ## Handling events of the SDK
