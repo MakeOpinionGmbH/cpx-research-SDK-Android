@@ -46,8 +46,8 @@ class TransactionFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         (activity?.application as? CPXApplication)?.let { app ->
             val adapter = TransactionAdapter(app.cpxResearch().unpaidTransactions) { view ->
-                view?.let { view ->
-                    val transactionId = view.tag as String
+                view?.let { foundView ->
+                    val transactionId = foundView.tag as String
                     app.cpxResearch().unpaidTransactions.find { item ->
                         item.transId == transactionId
                     }?.let {

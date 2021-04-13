@@ -50,7 +50,7 @@ class CPXBannerViewHandler(
             }*/
             it.setOnTouchListener(object : View.OnTouchListener {
                 override fun onTouch(view: View?, event: MotionEvent?): Boolean {
-                    event?.let { event ->
+                    event?.let { localEvent ->
                         val imageWidth = it.width
                         val imageHeight = it.height
                         val bmp = it.drawable.toBitmap()
@@ -58,8 +58,8 @@ class CPXBannerViewHandler(
                         val scaleX = bmp.width / imageWidth
                         val scaleY = bmp.height / imageHeight
 
-                        val x = event.x.toInt() * scaleX
-                        val y = event.y.toInt() * scaleY
+                        val x = localEvent.x.toInt() * scaleX
+                        val y = localEvent.y.toInt() * scaleY
 
                         if (x < bmp.width && y < bmp.height) {
                             val pixel: Int = bmp.getPixel(x, y)
@@ -71,7 +71,7 @@ class CPXBannerViewHandler(
                             val result = redValue != 0 || blueValue != 0 || greenValue != 0
 
                             if (result) {
-                                when (event.action) {
+                                when (localEvent.action) {
                                     ACTION_DOWN -> listener.onImageTapped()
                                 }
                             }
