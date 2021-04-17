@@ -94,7 +94,7 @@ class MainActivity : FragmentActivity() {
                     "New surveys available",
                     20,
                     "#ffffff",
-                    "ffaf20",
+                    "#ffaf20",
                     true)
             it.setStyle(style)
         }
