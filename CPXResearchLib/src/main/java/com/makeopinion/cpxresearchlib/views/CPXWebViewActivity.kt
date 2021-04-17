@@ -4,15 +4,16 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
+import android.content.res.ColorStateList
+import android.graphics.*
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
+import android.widget.ProgressBar
 import com.google.gson.Gson
 import com.makeopinion.cpxresearchlib.NetworkService
 import com.makeopinion.cpxresearchlib.R
@@ -33,6 +34,7 @@ class CPXWebViewActivity : Activity() {
     private var btnClose: ImageView? = null
     private var btnSettings: ImageView? = null
     private var btnHelp: ImageView? = null
+    private var progressBar: ProgressBar? = null
 
     private var configuration: CPXConfiguration? = null
     private var screenshot: Bitmap? = null
@@ -129,6 +131,10 @@ class CPXWebViewActivity : Activity() {
         btnClose = findViewById(R.id.btn_close)
         btnSettings = findViewById(R.id.btn_settings)
         btnHelp = findViewById(R.id.btn_help)
+        progressBar = findViewById(R.id.progressBar)
+
+        val color = Color.parseColor(configuration!!.style.backgroundColor)
+        progressBar!!.progressTintList = ColorStateList.valueOf(color)
 
         setupContent()
         setupWebView()
@@ -149,6 +155,23 @@ class CPXWebViewActivity : Activity() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     view?.loadUrl(url)
                     return true
+                }
+            }
+            webView.webChromeClient = object : WebChromeClient() {
+                override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                    super.onProgressChanged(view, newProgress)
+
+                    progressBar?.let {
+                        if (newProgress < 100 && it.visibility == View.GONE) {
+                            it.visibility = View.VISIBLE
+                        }
+
+                        it.progress = newProgress
+
+                        if (newProgress == 100) {
+                            it.visibility = View.GONE
+                        }
+                    }
                 }
             }
             screenshot?.let {

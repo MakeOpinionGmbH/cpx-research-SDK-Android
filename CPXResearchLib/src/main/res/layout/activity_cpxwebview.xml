@@ -37,9 +37,23 @@
             android:background="@drawable/shape"/>
     </LinearLayout>
 
-    <WebView
-        android:id="@+id/webView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:progress="50"
+            android:layout_marginBottom="3dp"/>
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </WebView>
+    </LinearLayout>
 </LinearLayout>
