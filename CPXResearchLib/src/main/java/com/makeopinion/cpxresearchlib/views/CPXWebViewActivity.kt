@@ -153,7 +153,9 @@ class CPXWebViewActivity : Activity() {
             webView.settings.domStorageEnabled = true
             webView.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    view?.loadUrl(url)
+                    url?.let {
+                        view?.loadUrl(it)
+                    }
                     return true
                 }
             }
@@ -202,7 +204,9 @@ class CPXWebViewActivity : Activity() {
                     }
                 }
             } ?: run {
-                webView.loadUrl(intent.getStringExtra("url"))
+                intent.getStringExtra("url")?.let {
+                    webView.loadUrl(it)
+                }
             }
         }
     }

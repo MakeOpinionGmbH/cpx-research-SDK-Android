@@ -14,6 +14,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Logging](#logging)
 
 # Prerequisites
 
@@ -36,7 +37,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:0.9.5'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:0.9.7'
 }
 ```
 
@@ -299,3 +300,6 @@ private void initCPX() {
     cpxResearch = CPXResearch.Companion.init(this, config);
 }
 ```
+# Logging
+CPXResearch provides an internal debug logging mechanism that can be activated calling the function setLogMode(boolean). If set to true the SDK will log in memory.
+Logs can be exported calling exportLog(onActivity).

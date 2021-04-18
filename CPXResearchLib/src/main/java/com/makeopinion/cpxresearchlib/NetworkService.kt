@@ -69,10 +69,12 @@ class NetworkService {
         queryItems["output_method"] = "jsscriptv1"
         additionalQueryItems?.let { queryItems.putAll(it) }
 
-        AndroidNetworking.get(SURVEY_API_URL)
+        val request = AndroidNetworking.get(SURVEY_API_URL)
             .addQueryParameter(queryItems)
             .build()
-            .getAsString(object : StringRequestListener {
+        CPXLogger.l("Calling url ${request.url}")
+
+        request.getAsString(object : StringRequestListener {
                 override fun onResponse(json: String?) {
                     json?.let { jsonString ->
                         Gson().fromJson(jsonString, SurveyModel::class.java)
