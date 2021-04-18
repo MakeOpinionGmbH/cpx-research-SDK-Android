@@ -40,9 +40,7 @@ class CPXApplication: Application() {
             .build()
 
         val cpx = CPXResearch.init(context, config)
-
-        cpx.requestSurveyUpdate(true)
-
+        cpx.setLogMode(true)
         cpxResearch = cpx
     }
 }
