@@ -58,4 +58,28 @@ data class TransactionItem(
     @SerializedName(value = "is_paid_to_user") val isPaidToUser: String,
     @SerializedName(value = "is_paid_to_user_datetime") val isPaidToUserDateTime: String,
     @SerializedName(value = "is_paid_to_user_type") val isPaidToUserType: String
-)
+) {
+    /**
+     * Earnings of the Publisher
+     */
+    val earningPublisher: String
+        get() = verdienstPublisher
+
+    /**
+     * Earnings of the User
+     */
+    val earningUser: String
+        get() =  verdienstPublisher
+
+    /**
+     * Earnings of the publisher as double type
+     */
+    val earningPublisherAsDouble: Double?
+        get() = verdienstPublisher.toDoubleOrNull()
+
+    /**
+     * Earnings of the user as double type
+     */
+    val earningUserAsDouble: Double?
+        get() =  verdienstPublisher.toDoubleOrNull()
+}

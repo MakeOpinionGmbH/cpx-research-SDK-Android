@@ -37,7 +37,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:0.9.7'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.0.0'
 }
 ```
 
@@ -206,6 +206,28 @@ Mark a transaction as paid
 
 ```java
 ((CPXApplication) getApplication()).getCpxResearch().markTransactionAsPaid(transactionId, messageId);
+```
+
+Access all current surveys for the user
+```kotlin
+(activity?.application as? CPXApplication)?.let { app ->
+    val surveys = app.cpxResearch().surveys
+}
+```
+
+```java
+List<SurveyItem> surveys = ((CPXApplication) getApplication()).getCpxResearch().getSurveys();
+```
+
+Access all current unpaid transactions for the user
+```kotlin
+(activity?.application as? CPXApplication)?.let { app ->
+    val transactions = app.cpxResearch().unpaidTransactions
+}
+```
+
+```java
+List<TransactionItem> transactions = ((CPXApplication) getApplication()).getCpxResearch().getUnpaidTransactions();
 ```
 
 ## How to add an own application class

@@ -181,6 +181,18 @@ class CPXResearch(private val configuration: CPXConfiguration) {
     }
 
     /**
+     * Tells CPX Research that a transaction has been paid to the user. This removes the transaction from the unpaid list.
+     * If the transaction id/message id is invalid this function does not throw any error.
+     * This function does call {@link #markTransactionAsPaid(String, String)} internally.
+     *
+     * @param transactionItem The transaction item to mark as paid.
+     */
+    fun markTransactionAsPaid(transactionItem: TransactionItem) {
+        CPXLogger.f("markTransactionAsPaid($transactionItem)")
+        markTransactionAsPaid(transactionItem.transId, transactionItem.messageId)
+    }
+
+    /**
      * Adds a listener of CPXResearch events
      *
      * @param listener The listener object to add. If this listener is already known this function will do nothing.

@@ -37,6 +37,7 @@ class CPXWebViewActivity : Activity() {
     private var progressBar: ProgressBar? = null
 
     private var configuration: CPXConfiguration? = null
+    private var calledUrls = mutableListOf<String>()
     private var screenshot: Bitmap? = null
 
     companion object {
@@ -155,6 +156,7 @@ class CPXWebViewActivity : Activity() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     url?.let {
                         view?.loadUrl(it)
+                        calledUrls.add(it)
                     }
                     return true
                 }
@@ -178,7 +180,7 @@ class CPXWebViewActivity : Activity() {
             }
             screenshot?.let {
                 doAsync {
-                    val supportModel = SupportModel(emptyList(),
+                    val supportModel = SupportModel(calledUrls,
                             bitmapToString(it))
                     val json = Gson().toJson(supportModel)
 
