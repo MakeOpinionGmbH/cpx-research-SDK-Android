@@ -32,7 +32,6 @@ data class SurveyItem(
     val loi: Int,
     val payout: String,
     @SerializedName(value = "conversion_rate") val conversionRate: String,
-    @SerializedName(value = "istestsurvey") val isTestSurvey: Int?,
     @SerializedName(value = "statistics_rating_count") val statisticsRatingCount: Int,
     @SerializedName(value = "statistics_rating_avg") val statisticsRatingAvg: Int,
     val type: String,

@@ -6,6 +6,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.makeopinion.cpxresearchlib.models.CPXConfiguration
 import com.makeopinion.cpxresearchlib.models.SurveyModel
 
@@ -77,8 +78,13 @@ class NetworkService {
         request.getAsString(object : StringRequestListener {
                 override fun onResponse(json: String?) {
                     json?.let { jsonString ->
-                        Gson().fromJson(jsonString, SurveyModel::class.java)
-                        .let { listener.onSurveyResponse(it) }
+                        try {
+                            val model = Gson().fromJson(jsonString, SurveyModel::class.java)
+                            listener.onSurveyResponse(model)
+                        } catch(e: JsonSyntaxException) {
+                            //ignore but log at least
+                            listener.onError(ANError(e))
+                        }
                     }
                 }
 
