@@ -7,6 +7,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.makeopinion.cpxresearchlib.misc.CPXJsonValidator
 import com.makeopinion.cpxresearchlib.models.CPXConfiguration
 import com.makeopinion.cpxresearchlib.models.SurveyModel
 
@@ -19,7 +20,7 @@ class NetworkService {
         private const val IMAGE_API_URL = "https://dyn-image.cpx-research.com/image"
 
         fun imageUrlFor(configuration: CPXConfiguration): Uri {
-            var queryItems = configuration.queryItems()
+            val queryItems = configuration.queryItems()
 
             val builder = IMAGE_API_URL.toUri().buildUpon()
             queryItems.keys.forEach { builder.appendQueryParameter(it, queryItems[it]) }
@@ -28,7 +29,7 @@ class NetworkService {
         }
 
         fun surveyUrl(configuration: CPXConfiguration, showSurveyById: String? = null): Uri? {
-            var queryItems = configuration.queryItems()
+            val queryItems = configuration.queryItems()
             queryItems["no_close"] = "true"
             showSurveyById?.let { queryItems["survey_id"] = it }
 
@@ -39,7 +40,7 @@ class NetworkService {
         }
 
         fun hideDialogUrl(configuration: CPXConfiguration): Uri? {
-            var queryItems = configuration.queryItems()
+            val queryItems = configuration.queryItems()
             queryItems["no_close"] = "true"
             queryItems["site"] = "settings-webview"
 
@@ -50,7 +51,7 @@ class NetworkService {
         }
 
         fun helpSiteUrl(configuration: CPXConfiguration): Uri? {
-            var queryItems = configuration.queryItems()
+            val queryItems = configuration.queryItems()
             queryItems["no_close"] = "true"
             queryItems["site"] = "help"
 
@@ -66,7 +67,7 @@ class NetworkService {
         additionalQueryItems: HashMap<String, String?>?,
         listener: ResponseListener
     ) {
-        var queryItems = configuration.queryItems()
+        val queryItems = configuration.queryItems()
         queryItems["output_method"] = "jsscriptv1"
         additionalQueryItems?.let { queryItems.putAll(it) }
 
@@ -80,7 +81,8 @@ class NetworkService {
                     json?.let { jsonString ->
                         try {
                             val model = Gson().fromJson(jsonString, SurveyModel::class.java)
-                            listener.onSurveyResponse(model)
+                            if (model != null && CPXJsonValidator.isValidSurveyModel(model))
+                                listener.onSurveyResponse(model)
                         } catch(e: JsonSyntaxException) {
                             //ignore but log at least
                             listener.onError(ANError(e))

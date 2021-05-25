@@ -31,7 +31,7 @@ class CPXResearch(private val configuration: CPXConfiguration) {
     }
 
     private val api = NetworkService()
-    private var listeners = emptyList<CPXResearchListener>()
+    private var listeners = emptyList<CPXResearchListener>().toMutableList()
     private var bannerViewHandler: CPXBannerViewHandler? = null
     private var intervalHandler: Handler? = null
 
@@ -241,16 +241,16 @@ class CPXResearch(private val configuration: CPXConfiguration) {
     }
 
     private val onSurveyUpdateHandler = object : ResponseListener {
-        override fun onSurveyResponse(response: SurveyModel) {
-            CPXLogger.f("onSurveyResponse($response)")
-            response.surveys?.let { surveyArray ->
+        override fun onSurveyResponse(model: SurveyModel) {
+            CPXLogger.f("onSurveyResponse($model)")
+            model.surveys?.let { surveyArray ->
                 val newSurveys = surveyArray.toList()
                 if (!newSurveys.isEqualTo(surveys)) {
                     surveys = surveyArray.toMutableList()
                     listeners.forEach { it.onSurveysUpdated() }
                 }
 
-                response.transactions?.let { transactionArray ->
+                model.transactions?.let { transactionArray ->
                     val newTransactions = transactionArray.toList()
                     if (!newTransactions.isEqualTo(unpaidTransactions)) {
                         unpaidTransactions = transactionArray.toMutableList()
@@ -258,7 +258,7 @@ class CPXResearch(private val configuration: CPXConfiguration) {
                     }
                 }
 
-                cpxText = response.text
+                cpxText = model.text
                 installBanner()
             }
         }
