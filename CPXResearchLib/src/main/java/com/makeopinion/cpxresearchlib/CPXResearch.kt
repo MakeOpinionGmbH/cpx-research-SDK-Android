@@ -200,7 +200,7 @@ class CPXResearch(private val configuration: CPXConfiguration) {
     fun registerListener(listener: CPXResearchListener) {
         CPXLogger.f("registerListener($listener)")
         if (!listeners.contains(listener)) {
-            listeners += listener
+            listeners.add(listener)
         }
     }
 
