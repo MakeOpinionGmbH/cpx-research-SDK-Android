@@ -7,7 +7,7 @@ data class SurveyModel(var status: String,
                        @SerializedName(value = "count_returned_surveys") val returnedSurveysCount: Int,
                        val transactions: Array<TransactionItem>?,
                        val surveys: Array<SurveyItem>?,
-                       val text: SurveyTextItem
+                       val text: SurveyTextItem?
                        )
 
 data class SurveyTextItem(
