@@ -14,7 +14,7 @@ class CPXApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initCPX(this)
+        initCPX()
     }
 
     private var cpxResearch: CPXResearch? = null
@@ -23,7 +23,7 @@ class CPXApplication: Application() {
         return cpxResearch!!
     }
 
-    private fun initCPX(context: Context) {
+    private fun initCPX() {
         val style = CPXStyleConfiguration(
             SurveyPosition.SideRightNormal,
             "Earn up to 3 Coins in<br> 4 minutes with surveys",
@@ -39,7 +39,7 @@ class CPXApplication: Application() {
             style)
             .build()
 
-        val cpx = CPXResearch.init(context, config)
+        val cpx = CPXResearch.init(config)
         cpx.setLogMode(true)
         cpxResearch = cpx
     }
