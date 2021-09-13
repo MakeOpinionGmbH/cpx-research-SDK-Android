@@ -1,2 +1,2 @@
-install:
- - ./gradlew build :cpxresearchlib:publishToMavenLocal
+jdk:
+  - openjdk11
