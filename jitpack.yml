@@ -1,2 +1,2 @@
 install:
- - ./gradlew build :lib:publishToMavenLocal
+ - ./gradlew build :cpxresearchlib:publishToMavenLocal
