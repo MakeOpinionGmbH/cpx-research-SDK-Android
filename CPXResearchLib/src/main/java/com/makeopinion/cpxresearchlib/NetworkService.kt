@@ -1,15 +1,17 @@
 package com.makeopinion.cpxresearchlib
 
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import androidx.core.net.toUri
-import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.StringRequestListener
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.makeopinion.cpxresearchlib.misc.CPXJsonValidator
 import com.makeopinion.cpxresearchlib.models.CPXConfiguration
 import com.makeopinion.cpxresearchlib.models.SurveyModel
+import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import java.io.IOException
 
 
 class NetworkService {
@@ -18,6 +20,8 @@ class NetworkService {
         private const val SURVEY_WEB_URL = "https://offers.cpx-research.com/index.php"
         private const val SURVEY_API_URL = "https://live-api.cpx-research.com/api/get-surveys.php"
         private const val IMAGE_API_URL = "https://dyn-image.cpx-research.com/image"
+
+        private var httpClient = OkHttpClient()
 
         fun imageUrlFor(configuration: CPXConfiguration): Uri {
             val queryItems = configuration.queryItems()
@@ -71,33 +75,42 @@ class NetworkService {
         queryItems["output_method"] = "jsscriptv1"
         additionalQueryItems?.let { queryItems.putAll(it) }
 
-        val request = AndroidNetworking.get(SURVEY_API_URL)
-            .addQueryParameter(queryItems)
-            .build()
+        val urlBuilder = SURVEY_API_URL.toHttpUrl()
+                    .newBuilder()
+        queryItems.keys.forEach { urlBuilder.addQueryParameter(it, queryItems[it]) }
+
+        val request = Request.Builder()
+                .url(urlBuilder.build())
+                .build()
+
         CPXLogger.l("Calling url ${request.url}")
 
-        request.getAsString(object : StringRequestListener {
-                override fun onResponse(json: String?) {
-                    json?.let { jsonString ->
+        httpClient.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use { res ->
+                    if (!res.isSuccessful) throw IOException("Unexpected code $res")
+
+                    res.body?.let {
                         try {
-                            val model = Gson().fromJson(jsonString, SurveyModel::class.java)
+                            val model = Gson().fromJson(it.string(), SurveyModel::class.java)
                             if (model != null && CPXJsonValidator.isValidSurveyModel(model))
-                                listener.onSurveyResponse(model)
+                                Handler(Looper.getMainLooper()).post { listener.onSurveyResponse(model) }
                         } catch(e: JsonSyntaxException) {
                             //ignore but log at least
-                            listener.onError(ANError(e))
+                            listener.onError(e)
                         }
                     }
                 }
-
-                override fun onError(anError: ANError?) {
-                    anError?.let { listener.onError(it) }
-                }
-            })
+            }
+        })
     }
 }
 
 interface ResponseListener {
     fun onSurveyResponse(model: SurveyModel)
-    fun onError(anError: ANError)
+    fun onError(anError: Exception)
 }

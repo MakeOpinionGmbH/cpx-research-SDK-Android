@@ -37,7 +37,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.0.4'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.1.0'
 }
 ```
 
@@ -63,7 +63,7 @@ val config = CPXConfigurationBuilder(
             style)
             .build()
 
-val cpx = CPXResearch.init(context, config)
+val cpx = CPXResearch.init(config)
 ```
 
 or for Java
@@ -82,7 +82,7 @@ CPXConfiguration config = new CPXConfigurationBuilder("<Your app id>",
         style)
         .build();
 
-cpxResearch = CPXResearch.Companion.init(this, config);
+cpxResearch = CPXResearch.Companion.init(config);
 ```
 
 ## Using the SDK's banner for overlays

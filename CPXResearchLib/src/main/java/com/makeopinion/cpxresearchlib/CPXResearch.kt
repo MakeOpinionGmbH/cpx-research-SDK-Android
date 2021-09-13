@@ -1,14 +1,10 @@
 package com.makeopinion.cpxresearchlib
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import android.provider.DocumentsContract
 import android.util.Log
-import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.error.ANError
 import com.makeopinion.cpxresearchlib.misc.isEqualTo
 import com.makeopinion.cpxresearchlib.models.*
 import com.makeopinion.cpxresearchlib.views.*
@@ -18,12 +14,10 @@ class CPXResearch(private val configuration: CPXConfiguration) {
         /**
          * Initialise the CPXResearch Library. Must be called before any other functions.
          *
-         * @param context The application context.
          * @param configuration The configuration object
          * @return
          */
-        fun init(context: Context, configuration: CPXConfiguration): CPXResearch {
-            AndroidNetworking.initialize(context)
+        fun init(configuration: CPXConfiguration): CPXResearch {
             val cpx = CPXResearch(configuration)
             cpx.activateAutomaticCheckForSurveys()
             return cpx
@@ -263,8 +257,8 @@ class CPXResearch(private val configuration: CPXConfiguration) {
             }
         }
 
-        override fun onError(anError: ANError) {
-            CPXLogger.f("onError($anError)")
+        override fun onError(anError: Exception) {
+            CPXLogger.f("onError(${anError.localizedMessage})")
             Log.e("CPXResearchLib", "Error", anError)
         }
     }

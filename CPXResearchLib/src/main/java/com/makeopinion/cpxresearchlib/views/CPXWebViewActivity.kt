@@ -19,11 +19,12 @@ import com.makeopinion.cpxresearchlib.NetworkService
 import com.makeopinion.cpxresearchlib.R
 import com.makeopinion.cpxresearchlib.models.CPXConfiguration
 import com.makeopinion.cpxresearchlib.models.SupportModel
-import okhttp3.MediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import org.jetbrains.anko.doAsync
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import java.net.URL
 
@@ -179,14 +180,14 @@ class CPXWebViewActivity : Activity() {
                 }
             }
             screenshot?.let {
-                doAsync {
+                GlobalScope.async(Dispatchers.Default) {
                     val supportModel = SupportModel(calledUrls,
                             bitmapToString(it))
                     val json = Gson().toJson(supportModel)
 
                     val client = OkHttpClient()
                     val uri = URL(intent.getStringExtra("url"))
-                    val body = RequestBody.create(MediaType.parse("application/json"), json)
+                    val body = json.toRequestBody("application/json".toMediaTypeOrNull())
 
                     val request = Request.Builder()
                             .url(uri)
@@ -195,7 +196,7 @@ class CPXWebViewActivity : Activity() {
 
                     val response = client.newCall(request).execute()
 
-                    response.body()?.let { content ->
+                    response.body?.let { content ->
                         runOnUiThread {
                             webView.loadDataWithBaseURL(intent.getStringExtra("url"),
                                     content.string(),
