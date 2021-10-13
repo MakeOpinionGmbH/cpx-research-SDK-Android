@@ -22,6 +22,8 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 # Preview
 
+![Screenshot_20211013-171456_framed](https://user-images.githubusercontent.com/7074507/137166709-70c1882a-fc6c-45d5-8484-375661ef8b49.png)
+
 # Installation
 
 1. Add it in your **root** build.gradle at the end of repositories:
