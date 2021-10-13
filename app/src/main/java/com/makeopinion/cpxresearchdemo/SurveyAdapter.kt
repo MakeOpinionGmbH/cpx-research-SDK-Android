@@ -32,7 +32,7 @@ class SurveyAdapter(private var surveys: List<SurveyItem>,
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindItems(survey: SurveyItem) {
-            itemView.tag = "${survey.id}"
+            itemView.tag = survey.id
             val title = itemView.findViewById(R.id.tv_title) as TextView
             val subtitle = itemView.findViewById(R.id.tv_subtitle) as TextView
             val content = itemView.findViewById(R.id.tv_content) as TextView

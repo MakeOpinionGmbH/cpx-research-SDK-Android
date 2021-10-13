@@ -32,7 +32,7 @@ class TransactionAdapter(private var transactions: List<TransactionItem>,
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindItems(survey: TransactionItem) {
-            itemView.tag = "${survey.transId}"
+            itemView.tag = survey.transId
             val title = itemView.findViewById(R.id.tv_title) as TextView
             val subtitle = itemView.findViewById(R.id.tv_subtitle) as TextView
             val content = itemView.findViewById(R.id.tv_content) as TextView

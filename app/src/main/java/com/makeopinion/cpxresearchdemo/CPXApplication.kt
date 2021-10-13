@@ -1,14 +1,10 @@
 package com.makeopinion.cpxresearchdemo
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import com.makeopinion.cpxresearchlib.CPXResearch
-import com.makeopinion.cpxresearchlib.CPXResearchListener
 import com.makeopinion.cpxresearchlib.models.CPXConfigurationBuilder
 import com.makeopinion.cpxresearchlib.models.CPXStyleConfiguration
 import com.makeopinion.cpxresearchlib.models.SurveyPosition
-import com.makeopinion.cpxresearchlib.models.TransactionItem
 
 class CPXApplication: Application() {
 
@@ -25,11 +21,11 @@ class CPXApplication: Application() {
 
     private fun initCPX() {
         val style = CPXStyleConfiguration(
-            SurveyPosition.SideRightNormal,
-            "Earn up to 3 Coins in<br> 4 minutes with surveys",
+            SurveyPosition.CornerBottomLeft,
+            "Earn Coins",
             20,
             "#ffffff",
-            "#00af20",
+            "#ffaf20",
             true)
 
         val config = CPXConfigurationBuilder(

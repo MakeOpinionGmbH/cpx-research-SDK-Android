@@ -20,6 +20,8 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 - Android SDK 21 (Lollipop) or newer
 
+# Preview
+
 # Installation
 
 1. Add it in your **root** build.gradle at the end of repositories:
@@ -37,7 +39,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.1.2'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.2.0'
 }
 ```
 
@@ -110,6 +112,34 @@ protected void onCreate(Bundle savedInstanceState) {
 
     CPXApplication app = (CPXApplication) getApplication();
     app.getCpxResearch().setSurveyVisibleIfAvailable(true, this);
+}
+```
+
+## Using the CPX Survey Cards
+
+To use a recycler view with a default survey card you can get a fully prepared RecyclerView from the SDK. Add this to a parent view on your activity. The recycler view also handles click and update events for you.
+
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        parentView = findViewById(R.id.container)
+        val cardConfig = CPXCardConfiguration.default()
+
+        // OR
+
+        val cardConfig = CPXCardConfiguration(
+                Color.parseColor("#41d7e5"),
+                Color.WHITE,
+                Color.parseColor("#dfdfdf"),
+                Color.parseColor("#ffaa00"),
+                Color.DKGRAY,
+                3)
+
+        (application as? CPXApplication)?.let {
+            it.cpxResearch().insertCPXResearchCardsIntoContainer(this, parentView, cardConfig)
+        }
 }
 ```
 

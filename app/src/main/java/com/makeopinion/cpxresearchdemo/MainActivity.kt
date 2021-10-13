@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.fragment.app.FragmentActivity
 import com.makeopinion.cpxresearchlib.CPXResearchListener
+import com.makeopinion.cpxresearchlib.models.CPXCardConfiguration
 import com.makeopinion.cpxresearchlib.models.CPXStyleConfiguration
 import com.makeopinion.cpxresearchlib.models.SurveyPosition
 import com.makeopinion.cpxresearchlib.models.TransactionItem
@@ -15,6 +17,7 @@ class MainActivity : FragmentActivity() {
     private lateinit var container: FrameLayout
     private lateinit var btnToggleList: Button
     private lateinit var btnNextStyle: Button
+    private lateinit var llContainer: LinearLayout
 
     private var surveyFragment = SurveyFragment()
     private var transactionFragment = TransactionFragment()
@@ -32,6 +35,7 @@ class MainActivity : FragmentActivity() {
         container = findViewById(R.id.fragment_container)
         btnToggleList = findViewById(R.id.toggleButton)
         btnNextStyle = findViewById(R.id.styleButton)
+        llContainer = findViewById(R.id.ll_container)
 
         supportFragmentManager
             .beginTransaction()
@@ -61,6 +65,7 @@ class MainActivity : FragmentActivity() {
 
         (application as? CPXApplication)?.let {
             it.cpxResearch().setSurveyVisibleIfAvailable(true, this)
+            it.cpxResearch().requestSurveyUpdate(true)
             it.cpxResearch().registerListener(object : CPXResearchListener {
                 override fun onSurveysUpdated() {
                     Log.d("CPX", "surveys updated.")
@@ -79,6 +84,10 @@ class MainActivity : FragmentActivity() {
                     it.cpxResearch().requestSurveyUpdate(true)
                 }
             })
+
+            val cardConfig = CPXCardConfiguration.default()
+
+            it.cpxResearch().insertCPXResearchCardsIntoContainer(this, llContainer, cardConfig)
         }
     }
 

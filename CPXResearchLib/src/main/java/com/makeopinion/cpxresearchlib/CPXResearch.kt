@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.makeopinion.cpxresearchlib.misc.isEqualTo
 import com.makeopinion.cpxresearchlib.models.*
 import com.makeopinion.cpxresearchlib.views.*
@@ -219,6 +222,32 @@ class CPXResearch(private val configuration: CPXConfiguration) {
         CPXLogger.f("exportLog($onActivity)")
         val intent = Intent(onActivity, ExportLogActivity::class.java)
         onActivity.startActivity(intent)
+    }
+
+    /**
+     * Inserts a horizontal scrollable recycler view containing a card for each survey currently available.
+     *
+     * @param activity The activity to open the survey if the user clicks on the card.
+     * @param parentView The view holding the recycler view.
+     * @param configuration The card configuration settings colors and how many cards should be shown on screen.
+     */
+    fun insertCPXResearchCardsIntoContainer(activity: Activity,
+                                            parentView: ViewGroup,
+                                            configuration: CPXCardConfiguration) {
+        val inflater = LayoutInflater.from(activity)
+        val container = inflater.inflate(R.layout.cpxresearchcards, parentView, false)
+
+        val density = activity.resources.displayMetrics.density
+        val marginInPx = 2 * configuration.cardsOnScreen * 4 * density
+        val elementWidth = (activity.resources.displayMetrics.widthPixels - marginInPx) / configuration.cardsOnScreen
+
+        val rv = container.findViewById<RecyclerView>(R.id.recyclerview)
+        val adapter = CPXResearchCards(this, configuration, elementWidth.toInt()) { view ->
+            view?.let { openSurvey(activity, it.tag as String) }
+        }
+        rv.adapter = adapter
+
+        parentView.addView(container)
     }
 
     // Internal
