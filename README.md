@@ -22,7 +22,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 # Preview
 
-![Screenshot_20211013-171456_framed](https://user-images.githubusercontent.com/7074507/137166709-70c1882a-fc6c-45d5-8484-375661ef8b49.png)
+![Unknown](https://user-images.githubusercontent.com/7074507/137196166-568c2e90-dc80-49e8-bd38-e20bdbee4d2c.png)
 
 # Installation
 
