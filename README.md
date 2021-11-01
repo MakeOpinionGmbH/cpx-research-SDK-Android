@@ -152,6 +152,28 @@ override fun onCreate(savedInstanceState: Bundle?) {
         }
 }
 ```
+or Java
+
+```java
+protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ViewGroup parentView = findViewById(R.id.ll_container);
+
+        CPXApplication app = (CPXApplication) getApplication();
+
+        CPXCardConfiguration cardConfig = new CPXCardConfiguration(
+                Color.parseColor("#41d7e5"),
+                Color.WHITE,
+                Color.parseColor("#dfdfdf"),
+                Color.parseColor("#ffaa00"),
+                Color.DKGRAY,
+                3);
+
+        app.getCpxResearch().insertCPXResearchCardsIntoContainer(this, parentView, cardConfig);
+    }
+```
 
 ## Handling events of the SDK
 
