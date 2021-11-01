@@ -41,7 +41,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.2.0'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.2.1'
 }
 ```
 
@@ -49,7 +49,7 @@ dependencies {
 
 ## Initialize the library
 
-Enter the following code early in your App's life cycle, for example in the App's Application class. For Kotlin
+Enter the following code early in your App's life cycle, for example in the App's Application class. You can extra information like subIds, email or an entire array of specific data that will be sent back to you when you finish a transaction. For Kotlin
 
 ```kotlin
 val style = CPXStyleConfiguration(
@@ -65,6 +65,10 @@ val config = CPXConfigurationBuilder(
             "<Your external user id>",
             "<Your secure hash>",
             style)
+            //.withSubId1("subId1")
+            //.withSubId2("subId2")
+            //.withEmail("user@email.com")
+            //.withExtraInfo(arrayOf("value1", "value2"))
             .build()
 
 val cpx = CPXResearch.init(config)
@@ -84,6 +88,10 @@ CPXConfiguration config = new CPXConfigurationBuilder("<Your app id>",
         "<Your external user id>",
         "<Your secure hash>",
         style)
+        //.withSubId1("subId1")
+        //.withSubId2("subId2")
+        //.withEmail("user@email.com")
+        //.withExtraInfo(new String[]{"value1", "value2"})
         .build();
 
 cpxResearch = CPXResearch.Companion.init(config);

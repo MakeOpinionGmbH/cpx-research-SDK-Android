@@ -35,6 +35,7 @@ class CPXWebViewActivity : Activity() {
     private var btnClose: ImageView? = null
     private var btnSettings: ImageView? = null
     private var btnHelp: ImageView? = null
+    private var btnHome: ImageView? = null
     private var progressBar: ProgressBar? = null
 
     private var configuration: CPXConfiguration? = null
@@ -133,6 +134,7 @@ class CPXWebViewActivity : Activity() {
         btnClose = findViewById(R.id.btn_close)
         btnSettings = findViewById(R.id.btn_settings)
         btnHelp = findViewById(R.id.btn_help)
+        btnHome = findViewById(R.id.btn_home)
         progressBar = findViewById(R.id.progressBar)
 
         val color = Color.parseColor(configuration!!.style.backgroundColor)
@@ -218,6 +220,7 @@ class CPXWebViewActivity : Activity() {
         if (intent.getBooleanExtra("onlyCloseButtonVisible", true)) {
             btnHelp?.visibility = View.GONE
             btnSettings?.visibility = View.GONE
+            btnHome?.visibility = View.GONE
         }
 
         intent.getStringExtra("screenshot")?.let {
@@ -250,6 +253,12 @@ class CPXWebViewActivity : Activity() {
                         }
                     }
                 }
+            }
+        }
+
+        btnHome?.setOnClickListener {
+            intent.getStringExtra("url")?.let {
+                webView?.loadUrl(it)
             }
         }
     }

@@ -239,7 +239,7 @@ class CPXResearch(private val configuration: CPXConfiguration) {
 
         val density = activity.resources.displayMetrics.density
         val marginInPx = 2 * configuration.cardsOnScreen * 4 * density
-        val elementWidth = (activity.resources.displayMetrics.widthPixels - marginInPx) / configuration.cardsOnScreen
+        val elementWidth = maxOf((activity.resources.displayMetrics.widthPixels - marginInPx) / configuration.cardsOnScreen, 100.0f * density)
 
         val rv = container.findViewById<RecyclerView>(R.id.recyclerview)
         val adapter = CPXResearchCards(this, configuration, elementWidth.toInt()) { view ->
