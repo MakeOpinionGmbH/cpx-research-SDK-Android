@@ -32,6 +32,10 @@ class TransactionFragment : Fragment() {
                 override fun onSurveysDidOpen() {}
 
                 override fun onSurveysDidClose() {}
+
+                override fun onSurveyDidOpen() { }
+
+                override fun onSurveyDidClose() { }
             })
         }
     }

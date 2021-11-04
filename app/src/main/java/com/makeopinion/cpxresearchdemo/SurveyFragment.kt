@@ -29,6 +29,10 @@ class SurveyFragment : Fragment() {
                 override fun onSurveysDidOpen() { }
 
                 override fun onSurveysDidClose() { }
+
+                override fun onSurveyDidOpen() { }
+
+                override fun onSurveyDidClose() { }
             })
         }
     }

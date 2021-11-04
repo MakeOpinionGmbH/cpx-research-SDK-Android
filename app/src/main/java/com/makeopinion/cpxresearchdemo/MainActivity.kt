@@ -83,6 +83,14 @@ class MainActivity : FragmentActivity() {
                     Log.d("CPX", "surveys closed.")
                     it.cpxResearch().requestSurveyUpdate(true)
                 }
+
+                override fun onSurveyDidOpen() {
+                    Log.d("CPX", "single survey opened.")
+                }
+
+                override fun onSurveyDidClose() {
+                    Log.d("CPX", "single survey closed.")
+                }
             })
 
             val cardConfig = CPXCardConfiguration.default()

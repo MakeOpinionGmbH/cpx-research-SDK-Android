@@ -56,4 +56,10 @@ public class MainActivity extends AppCompatActivity implements CPXResearchListen
     public void onTransactionsUpdated(List<TransactionItem> unpaidTransactions) {
         Log.d("CPXDEMO", String.format("Transactions updated with %d items", unpaidTransactions.size()));
     }
+
+    @Override
+    public void onSurveyDidClose() { Log.d("CPXDEMO", "Single survey closed."); }
+
+    @Override
+    public void onSurveyDidOpen() { Log.d("CPXDEMO", "Single survey opened."); }
 }
