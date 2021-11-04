@@ -41,7 +41,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.2.1'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.3.0'
 }
 ```
 
@@ -201,6 +201,14 @@ In your Activity set the delegate to handle CPX Research events. In Kotlin
                 override fun onSurveysDidClose() {
                     Log.d("CPX", "surveys closed.")
                 }
+
+                override fun onSurveyDidOpen() {
+                    Log.d("CPX", "single survey opened.")
+                }
+
+                override fun onSurveyDidClose() {
+                    Log.d("CPX", "single survey closed.")
+                }
             })
         }
     }
@@ -227,6 +235,16 @@ app.getCpxResearch().registerListener(new CPXResearchListener() {
 
     @Override
     public void onSurveysDidClose() {
+
+    }
+
+    @Override
+    public void onSurveyDidOpen() {
+
+    }
+
+    @Override
+    public void onSurveyDidClose() {
 
     }
 });

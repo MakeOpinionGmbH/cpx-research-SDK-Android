@@ -90,7 +90,11 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
 
     override fun onTransactionsUpdated(unpaidTransactions: List<TransactionItem>) { }
 
-    override fun onSurveysDidOpen( ) {}
+    override fun onSurveysDidOpen( ) { }
 
     override fun onSurveysDidClose() { }
+
+    override fun onSurveyDidOpen() { }
+
+    override fun onSurveyDidClose() { }
 }

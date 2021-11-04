@@ -59,13 +59,16 @@ class CPXWebViewActivity : Activity() {
 
         fun launchSingleSurveyActivity(activity: Activity,
                                        configuration: CPXConfiguration,
-                                       surveyId: String) {
+                                       surveyId: String,
+                                       listener: CPXWebActivityListener) {
             val intent = Intent(activity, CPXWebViewActivity::class.java)
             val url = NetworkService.surveyUrl(configuration, surveyId).toString()
             intent.putExtra("url", url)
             intent.putExtra("config", configuration)
             intent.putExtra("onlyCloseButtonVisible", false)
             activity.startActivity(intent)
+            listener.onDidOpen()
+            this.listener = listener
         }
 
         fun launchHideDialogActivity(activity: Activity, configuration: CPXConfiguration) {

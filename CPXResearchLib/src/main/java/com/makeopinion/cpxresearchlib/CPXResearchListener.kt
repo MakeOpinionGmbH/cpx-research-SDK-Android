@@ -24,4 +24,14 @@ interface CPXResearchListener {
      * The survey list previously opened by a tap on a banner has been closed.
      */
     fun onSurveysDidClose()
+
+    /**
+     * A single survey was opened either by a direct call or by a click on a CPX Card
+     */
+    fun onSurveyDidOpen()
+
+    /**
+     * A single survey webview has been closed.
+     */
+    fun onSurveyDidClose()
 }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.makeopinion.cpxresearchlib.misc.isEqualTo
 import com.makeopinion.cpxresearchlib.models.*
 import com.makeopinion.cpxresearchlib.views.*
+import kotlinx.coroutines.newFixedThreadPoolContext
 
 class CPXResearch(private val configuration: CPXConfiguration) {
     companion object {
@@ -121,7 +122,24 @@ class CPXResearch(private val configuration: CPXConfiguration) {
         CPXLogger.f("openSurveyList($onActivity)")
         CPXWebViewActivity.launchSurveysActivity(onActivity,
             configuration,
-            webActivityEvenHandler)
+            object: CPXWebActivityListener {
+                override fun onDidOpen() {
+                    CPXLogger.f("openSurveyList onDidOpen()")
+                    listeners.forEach {
+                        it.onSurveysDidOpen()
+                        CPXLogger.l("Listener $it called with onSurveysDidOpen()")
+                    }
+                }
+
+                override fun onDidClose() {
+                    CPXLogger.f("openSurveyList onDidClose()")
+                    listeners.forEach {
+                        it.onSurveysDidClose()
+                        CPXLogger.l("Listener $it called with onSurveysDidClose()")
+                    }
+                }
+            }
+        )
     }
 
     /**
@@ -133,8 +151,26 @@ class CPXResearch(private val configuration: CPXConfiguration) {
     fun openSurvey(onActivity: Activity, byId: String) {
         CPXLogger.f("openSurvey($onActivity, $byId)")
         CPXWebViewActivity.launchSingleSurveyActivity(onActivity,
-        configuration,
-        byId)
+            configuration,
+            byId,
+            object : CPXWebActivityListener {
+                override fun onDidOpen() {
+                    CPXLogger.f("openSurvey onDidOpen()")
+                    listeners.forEach {
+                        it.onSurveyDidOpen()
+                        CPXLogger.l("Listener $it called with onSurveyDidOpen()")
+                    }
+                }
+
+                override fun onDidClose() {
+                    CPXLogger.f("openSurvey onDidClose()")
+                    listeners.forEach {
+                        it.onSurveyDidClose()
+                        CPXLogger.l("Listener $it called with onSurveyDidClose()")
+                    }
+                }
+            }
+        )
     }
 
     /**
@@ -289,24 +325,6 @@ class CPXResearch(private val configuration: CPXConfiguration) {
         override fun onError(anError: Exception) {
             CPXLogger.f("onError(${anError.localizedMessage})")
             Log.e("CPXResearchLib", "Error", anError)
-        }
-    }
-
-    private val webActivityEvenHandler = object : CPXWebActivityListener {
-        override fun onDidOpen() {
-            CPXLogger.f("onDidOpen()")
-            listeners.forEach {
-                it.onSurveysDidOpen()
-                CPXLogger.l("Listener $it called with onSurveysDidOpen()")
-            }
-        }
-
-        override fun onDidClose() {
-            CPXLogger.f("onDidClose()")
-            listeners.forEach {
-                it.onSurveysDidClose()
-                CPXLogger.l("Listener $it called with onSurveysDidClose()")
-            }
         }
     }
 
