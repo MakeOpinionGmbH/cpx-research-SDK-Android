@@ -15,6 +15,7 @@ import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.google.gson.Gson
+import com.makeopinion.cpxresearchlib.CPXLogger
 import com.makeopinion.cpxresearchlib.NetworkService
 import com.makeopinion.cpxresearchlib.R
 import com.makeopinion.cpxresearchlib.models.CPXConfiguration
@@ -26,7 +27,7 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
-import java.net.URL
+import java.io.IOException
 
 
 class CPXWebViewActivity : Activity() {
@@ -185,31 +186,37 @@ class CPXWebViewActivity : Activity() {
                 }
             }
             screenshot?.let {
-                GlobalScope.async(Dispatchers.Default) {
-                    val supportModel = SupportModel(calledUrls,
-                            bitmapToString(it))
-                    val json = Gson().toJson(supportModel)
+                val supportModel = SupportModel(calledUrls,
+                    bitmapToString(it))
+                val json = Gson().toJson(supportModel)
+
+                intent.getStringExtra("url")?.let { url ->
+                    val request = Request.Builder()
+                        .url(url)
+                        .post(json.toRequestBody("application/json".toMediaTypeOrNull()))
+                        .build()
 
                     val client = OkHttpClient()
-                    val uri = URL(intent.getStringExtra("url"))
-                    val body = json.toRequestBody("application/json".toMediaTypeOrNull())
-
-                    val request = Request.Builder()
-                            .url(uri)
-                            .post(body)
-                            .build()
-
-                    val response = client.newCall(request).execute()
-
-                    response.body?.let { content ->
-                        runOnUiThread {
-                            webView.loadDataWithBaseURL(intent.getStringExtra("url"),
-                                    content.string(),
-                                    "text/html",
-                                    "UTF-8",
-                                    null)
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            e.printStackTrace()
                         }
-                    }
+
+                        override fun onResponse(call: Call, response: Response) {
+                            response.body?.string()?.let {
+                                runOnUiThread {
+                                    webView.loadDataWithBaseURL(
+                                        intent.getStringExtra("url"),
+                                        it,
+                                        "text/html",
+                                        "UTF-8",
+                                        null
+                                    )
+                                }
+                            }
+                        }
+
+                    })
                 }
             } ?: run {
                 intent.getStringExtra("url")?.let {

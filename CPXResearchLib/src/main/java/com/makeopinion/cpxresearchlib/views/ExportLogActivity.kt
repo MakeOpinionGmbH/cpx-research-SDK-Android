@@ -13,7 +13,7 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
-class ExportLogActivity : AppCompatActivity() {
+class ExportLogActivity: Activity() {
 
     private val CREATE_FILE = 1
 
