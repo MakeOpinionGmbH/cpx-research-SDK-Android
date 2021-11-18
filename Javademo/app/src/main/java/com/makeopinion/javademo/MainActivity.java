@@ -26,13 +26,18 @@ public class MainActivity extends AppCompatActivity implements CPXResearchListen
         app.getCpxResearch().registerListener(this);
         app.getCpxResearch().setSurveyVisibleIfAvailable(true, this);
 
-        CPXCardConfiguration cardConfig = new CPXCardConfiguration(
-                Color.parseColor("#41d7e5"),
-                Color.WHITE,
-                Color.parseColor("#dfdfdf"),
-                Color.parseColor("#ffaa00"),
-                Color.DKGRAY,
-                3);
+        CPXCardConfiguration cardConfig = new CPXCardConfiguration.Builder()
+                .accentColor(Color.parseColor("#41d7e5"))
+                .backgroundColor(Color.WHITE)
+                .starColor(Color.parseColor("#ffaa00"))
+                .inactiveStarColor(Color.parseColor("#dfdfdf"))
+                .textColor(Color.DKGRAY)
+                .promotionAmountColor(Color.RED)
+                .cardsOnScreen(4)
+                .cornerRadius(4f)
+                .maximumSurveys(4)
+                .paddingHorizontal(16f)
+                .build();
 
         app.getCpxResearch().insertCPXResearchCardsIntoContainer(this, parentView, cardConfig);
     }
