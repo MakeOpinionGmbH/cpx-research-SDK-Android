@@ -19,6 +19,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_amount_original"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-6dp"
+                tools:text="1337"
+                android:gravity="center_horizontal"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+            <TextView
                 android:id="@+id/tv_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -27,7 +36,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"/>
             <TextView
-                android:layout_marginTop="-8dp"
+                android:layout_marginTop="-6dp"
                 android:id="@+id/tv_currency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +64,6 @@
                 android:layout_height="wrap_content"
                 tools:text="12 Mins"
                 android:textSize="13sp"
-                android:textStyle="bold"
                 android:layout_marginTop="-1dp"/>
         </LinearLayout>
         <LinearLayout
@@ -64,28 +72,28 @@
             android:gravity="center_horizontal">
             <ImageView
                 android:id="@+id/iv_star1"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:src="@drawable/icon_star"/>
             <ImageView
                 android:id="@+id/iv_star2"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:src="@drawable/icon_star"/>
             <ImageView
                 android:id="@+id/iv_star3"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:src="@drawable/icon_star"/>
             <ImageView
                 android:id="@+id/iv_star4"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:src="@drawable/icon_star"/>
             <ImageView
                 android:id="@+id/iv_star5"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:src="@drawable/icon_star"/>
         </LinearLayout>
     </LinearLayout>

@@ -5,8 +5,10 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.makeopinion.cpxresearchlib.misc.isEqualTo
 import com.makeopinion.cpxresearchlib.models.*
@@ -270,18 +272,30 @@ class CPXResearch(private val configuration: CPXConfiguration) {
     fun insertCPXResearchCardsIntoContainer(activity: Activity,
                                             parentView: ViewGroup,
                                             configuration: CPXCardConfiguration) {
+        CPXLogger.f("insertCPXResearchCardsIntoContainer($activity, $parentView, $configuration)")
         val inflater = LayoutInflater.from(activity)
         val container = inflater.inflate(R.layout.cpxresearchcards, parentView, false)
 
         val density = activity.resources.displayMetrics.density
-        val marginInPx = 2 * configuration.cardsOnScreen * 4 * density
-        val elementWidth = maxOf((activity.resources.displayMetrics.widthPixels - marginInPx) / configuration.cardsOnScreen, 100.0f * density)
+        val paddingLeftInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingLeft, activity.resources.displayMetrics).toInt()
+        val paddingRightInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingRight, activity.resources.displayMetrics).toInt()
+        val paddingTopInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingTop, activity.resources.displayMetrics).toInt()
+        val paddingBottomInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingBottom, activity.resources.displayMetrics).toInt()
+        val marginInPx = 2 * configuration.cardsOnScreen * 4 * density + paddingLeftInPx + paddingRightInPx
+        val elementWidth = maxOf((activity.resources.displayMetrics.widthPixels - marginInPx) / configuration.cardsOnScreen, 80.0f * density)
+
+        val elementRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.cornerRadius, activity.resources.displayMetrics)
 
         val rv = container.findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = CPXResearchCards(this, configuration, elementWidth.toInt()) { view ->
+        val adapter = CPXResearchCards(this, configuration, elementWidth.toInt(), elementRadius) { view ->
             view?.let { openSurvey(activity, it.tag as String) }
         }
         rv.adapter = adapter
+        rv.clipToPadding = false
+        rv.setPadding(paddingLeftInPx,
+                paddingTopInPx,
+                paddingRightInPx,
+                paddingBottomInPx)
 
         parentView.addView(container)
     }

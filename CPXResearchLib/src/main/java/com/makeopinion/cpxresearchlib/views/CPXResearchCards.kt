@@ -1,5 +1,6 @@
 package com.makeopinion.cpxresearchlib.views
 
+import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.makeopinion.cpxresearchlib.models.TransactionItem
 class CPXResearchCards(private val cpxResearch: CPXResearch,
                        private val config: CPXCardConfiguration,
                        private val elementWidth: Int,
+                       private val elementRadius: Float,
                        private var onClickListener: View.OnClickListener) : RecyclerView.Adapter<CPXResearchCards.ViewHolder>(), CPXResearchListener {
 
     private var items = emptyList<SurveyItem>().toMutableList()
@@ -30,7 +32,7 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.cpxresearchcard, parent, false)
         v.setOnClickListener(onClickListener)
-        return ViewHolder(v, cpxResearch, config, elementWidth)
+        return ViewHolder(v, cpxResearch, config, elementWidth, elementRadius)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,17 +40,19 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return minOf(items.size, config.maximumItems)
     }
 
     class ViewHolder(itemView: View,
                      private val cpxResearch: CPXResearch,
                      private val config: CPXCardConfiguration,
-                     private val elementWidth: Int) : RecyclerView.ViewHolder(itemView) {
+                     private val elementWidth: Int,
+                     private val elementRadius: Float) : RecyclerView.ViewHolder(itemView) {
 
         fun bindItems(survey: SurveyItem) {
             itemView.tag = survey.id
             val amount = itemView.findViewById(R.id.tv_amount) as TextView
+            val amountOriginal = itemView.findViewById(R.id.tv_amount_original) as TextView
             val currency = itemView.findViewById(R.id.tv_currency) as TextView
             val time = itemView.findViewById(R.id.tv_time) as TextView
             val timeIcon = itemView.findViewById(R.id.iv_time) as ImageView
@@ -59,13 +63,24 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
             val star5 = itemView.findViewById(R.id.iv_star5) as ImageView
             val bg = itemView.findViewById(R.id.cv_container) as CardView
 
+            if (survey.hasOfferPayout) {
+                amountOriginal.visibility = View.VISIBLE
+                amountOriginal.text = survey.payout_original
+                amountOriginal.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                amountOriginal.visibility = View.GONE
+                amountOriginal.text = ""
+            }
+
             bg.setCardBackgroundColor(config.backgroundColor)
+            bg.radius = elementRadius
             val layout = bg.layoutParams
             layout.width = elementWidth
             bg.layoutParams = layout
 
             amount.text = survey.payout
-            amount.setTextColor(config.accentColor)
+            amount.setTextColor(if (survey.hasOfferPayout) config.promotionAmountColor else config.accentColor)
+            amountOriginal.setTextColor(config.accentColor)
             currency.text = cpxResearch.cpxText?.currencyNamePlural ?: ""
             currency.setTextColor(config.accentColor)
             time.text = "${survey.loi} ${cpxResearch.cpxText?.shortCurtMin ?: "Mins"}"

@@ -38,8 +38,12 @@ data class SurveyItem(
     val top: Int,
     val details: Int?,
     @SerializedName(value = "earned_all") val earnedAll: Int?,
-    @SerializedName(value = "additional_parameter") val additionalParameter: Map<String, String>?
-)
+    @SerializedName(value = "additional_parameter") val additionalParameter: Map<String, String>?,
+    val payout_original: String?
+) {
+    val hasOfferPayout: Boolean
+        get() = !payout_original.isNullOrEmpty()
+}
 
 data class TransactionItem(
     @SerializedName(value = "trans_id") val transId: String,

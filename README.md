@@ -41,7 +41,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.3.1'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.4.0'
 }
 ```
 
@@ -133,19 +133,31 @@ To use a recycler view with a default survey card you can get a fully prepared R
 override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         parentView = findViewById(R.id.container)
-        val cardConfig = CPXCardConfiguration.default()
+
+        val cardConfig = CPXCardConfiguration.Builder()
+                    .build() //don't set anything, just use default values
 
         // OR
 
-        val cardConfig = CPXCardConfiguration(
-                Color.parseColor("#41d7e5"),
-                Color.WHITE,
-                Color.parseColor("#dfdfdf"),
-                Color.parseColor("#ffaa00"),
-                Color.DKGRAY,
-                3)
+        val cardConfig = CPXCardConfiguration.Builder()
+                    .accentColor(Color.parseColor("#41d7e5")) // color of amount and currency
+                    .backgroundColor(Color.WHITE) // background of the card
+                    .starColor(Color.parseColor("#ffaa00")) // color for active stars
+                    .inactiveStarColor(Color.parseColor("#dfdfdf")) // color for inactive stars
+                    .textColor(Color.DKGRAY) // text color for survey time
+                    .promotionAmountColor(Color.RED) // text color for promotion offers
+                    .cardsOnScreen(4) // set how many cards are initially visible on screen
+                    .cornerRadius(4f) // set the corner radius of cards
+                    .maximumSurveys(4) // set maximum amount of surveys showns
+                    .paddingHorizontal(16f) // set left/right
+                    //.paddingVertical(16f) // set top/bottom
+                    //.padding(16f) // set all borders
+                    //.paddingLeft(16f) // just set the left
+                    //.paddingRight(16f) // just set the right
+                    //.paddingTop(16f) // just set the top
+                    //.paddingBottom(16f) //just set the bottom
+                    .build()
 
         (application as? CPXApplication)?.let {
             it.cpxResearch().insertCPXResearchCardsIntoContainer(this, parentView, cardConfig)
@@ -163,13 +175,29 @@ protected void onCreate(Bundle savedInstanceState) {
 
         CPXApplication app = (CPXApplication) getApplication();
 
-        CPXCardConfiguration cardConfig = new CPXCardConfiguration(
-                Color.parseColor("#41d7e5"),
-                Color.WHITE,
-                Color.parseColor("#dfdfdf"),
-                Color.parseColor("#ffaa00"),
-                Color.DKGRAY,
-                3);
+        CPXCardConfiguration cardConfig = new CPXCardConfiguration.Builder()
+                .build(); //don't set anything, just use default values
+
+        // OR
+
+        CPXCardConfiguration cardConfig = new CPXCardConfiguration.Builder()
+                .accentColor(Color.parseColor("#41d7e5")) // color of amount and currency
+                .backgroundColor(Color.WHITE) // background of the card
+                .starColor(Color.parseColor("#ffaa00")) // color for active stars
+                .inactiveStarColor(Color.parseColor("#dfdfdf")) // color for inactive stars
+                .textColor(Color.DKGRAY) // text color for survey time
+                .promotionAmountColor(Color.RED) // text color for promotion offers
+                .cardsOnScreen(4) // set how many cards are initially visible on screen
+                .cornerRadius(4f) // set the corner radius of cards
+                .maximumSurveys(4) // set maximum amount of surveys showns
+                .paddingHorizontal(16f) // set left/right
+                //.paddingVertical(16f) // set top/bottom
+                //.padding(16f) // set all borders
+                //.paddingLeft(16f) // just set the left
+                //.paddingRight(16f) // just set the right
+                //.paddingTop(16f) // just set the top
+                //.paddingBottom(16f) //just set the bottom
+                .build();
 
         app.getCpxResearch().insertCPXResearchCardsIntoContainer(this, parentView, cardConfig);
     }
