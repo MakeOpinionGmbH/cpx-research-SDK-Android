@@ -1,5 +1,6 @@
 package com.makeopinion.cpxresearchdemo
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -93,7 +94,24 @@ class MainActivity : FragmentActivity() {
                 }
             })
 
-            val cardConfig = CPXCardConfiguration.default()
+            val cardConfig = CPXCardConfiguration.Builder()
+                    .accentColor(Color.parseColor("#3D3E4B"))
+                    .backgroundColor(Color.parseColor("#DAEEF8"))
+                    .starColor(Color.parseColor("#16A1EF"))
+                    .inactiveStarColor(Color.parseColor("#DDDDDD"))
+                    .textColor(Color.parseColor("#3D3E4B"))
+                    .promotionAmountColor(Color.parseColor("#3D3E4B"))
+                    .cardsOnScreen(4)
+                    .cornerRadius(4f)
+                    .maximumSurveys(4)
+                    .paddingHorizontal(16f)
+                    .paddingVertical(16f)
+                    .padding(16f)
+                    .paddingLeft(16f)
+                    .paddingRight(16f)
+                    .paddingTop(16f)
+                    .paddingBottom(16f)
+                    .build()
 
             it.cpxResearch().insertCPXResearchCardsIntoContainer(this, llContainer, cardConfig)
         }
