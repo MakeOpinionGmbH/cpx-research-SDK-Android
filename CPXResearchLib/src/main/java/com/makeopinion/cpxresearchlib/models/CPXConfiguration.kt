@@ -42,7 +42,7 @@ class CPXConfiguration(
                         Pair("text", style.text),
                         Pair("textsize", "${style.textSize.toPx()}"),
                         Pair("sdk", "android"),
-                        Pair("sdk_version", "1.4.0"),
+                        Pair("sdk_version", "1.4.1"),
                         Pair("secure_hash", CPXHash.md5("${extUserId}-${secureHash}"))
                 )
 
