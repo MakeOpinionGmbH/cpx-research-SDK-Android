@@ -3,11 +3,12 @@
     package="com.makeopinion.cpxresearchlib">
 
     <application>
-        <activity android:name=".views.ExportLogActivity"></activity>
+        <activity android:name=".views.ExportLogActivity" />
         <activity
             android:name=".views.CPXWebViewActivity"
+            android:screenOrientation="fullSensor"
             android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+            android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen" />
     </application>
 
 </manifest>

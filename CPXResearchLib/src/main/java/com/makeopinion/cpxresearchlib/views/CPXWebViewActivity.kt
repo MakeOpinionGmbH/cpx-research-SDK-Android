@@ -2,6 +2,7 @@ package com.makeopinion.cpxresearchlib.views
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -13,16 +14,13 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.google.gson.Gson
-import com.makeopinion.cpxresearchlib.CPXLogger
 import com.makeopinion.cpxresearchlib.NetworkService
 import com.makeopinion.cpxresearchlib.R
 import com.makeopinion.cpxresearchlib.models.CPXConfiguration
 import com.makeopinion.cpxresearchlib.models.SupportModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -32,6 +30,7 @@ import java.io.IOException
 
 class CPXWebViewActivity : Activity() {
 
+    private var bgLinearLayout: LinearLayout? = null
     private var webView: WebView? = null
     private var btnClose: ImageView? = null
     private var btnSettings: ImageView? = null
@@ -43,6 +42,11 @@ class CPXWebViewActivity : Activity() {
     private var calledUrls = mutableListOf<String>()
     private var screenshot: Bitmap? = null
 
+    private var confirmDialogTitle: String? = null
+    private var confirmDialogMsg: String? = null
+    private var confirmDialogLeaveBtnText: String? = null
+    private var confirmDialogCancelBtnText: String? = null
+
     companion object {
         private var listener: CPXWebActivityListener? = null
         fun launchSurveysActivity(activity: Activity,
@@ -53,6 +57,7 @@ class CPXWebViewActivity : Activity() {
             intent.putExtra("url", url)
             intent.putExtra("config", configuration)
             intent.putExtra("onlyCloseButtonVisible", false)
+            intent.putExtra("confirmCloseDialog", true)
             activity.startActivity(intent)
             listener.onDidOpen()
             this.listener = listener
@@ -67,6 +72,7 @@ class CPXWebViewActivity : Activity() {
             intent.putExtra("url", url)
             intent.putExtra("config", configuration)
             intent.putExtra("onlyCloseButtonVisible", false)
+            intent.putExtra("confirmCloseDialog", true)
             activity.startActivity(intent)
             listener.onDidOpen()
             this.listener = listener
@@ -134,6 +140,7 @@ class CPXWebViewActivity : Activity() {
 
         configuration = intent.getSerializableExtra("config") as CPXConfiguration
 
+        bgLinearLayout = findViewById(R.id.bg)
         webView = findViewById(R.id.webView)
         btnClose = findViewById(R.id.btn_close)
         btnSettings = findViewById(R.id.btn_settings)
@@ -141,11 +148,20 @@ class CPXWebViewActivity : Activity() {
         btnHome = findViewById(R.id.btn_home)
         progressBar = findViewById(R.id.progressBar)
 
+        confirmDialogTitle = configuration?.confirmDialogTitle
+        confirmDialogMsg = configuration?.confirmDialogMsg
+        confirmDialogLeaveBtnText = configuration?.confirmDialogLeaveBtnText
+        confirmDialogCancelBtnText = configuration?.confirmDialogCancelBtnText
+
         val color = Color.parseColor(configuration!!.style.backgroundColor)
-        progressBar!!.progressTintList = ColorStateList.valueOf(color)
+        progressBar?.progressTintList = ColorStateList.valueOf(color)
+        bgLinearLayout?.setBackgroundColor(color)
 
         setupContent()
         setupWebView()
+
+        val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        btnHome?.background?.colorFilter = colorFilter
     }
 
     override fun onDestroy() {
@@ -227,6 +243,8 @@ class CPXWebViewActivity : Activity() {
     }
 
     private fun setupContent() {
+        val showCloseConfirm = intent.getBooleanExtra("confirmCloseDialog", false)
+
         if (intent.getBooleanExtra("onlyCloseButtonVisible", true)) {
             btnHelp?.visibility = View.GONE
             btnSettings?.visibility = View.GONE
@@ -239,7 +257,11 @@ class CPXWebViewActivity : Activity() {
 
         btnClose?.let {
             it.setOnClickListener {
-                this.finish()
+                if (showCloseConfirm) {
+                    showCloseWarning()
+                } else {
+                    this.finish()
+                }
             }
         }
 
@@ -271,6 +293,29 @@ class CPXWebViewActivity : Activity() {
                 webView?.loadUrl(it)
             }
         }
+    }
+
+    private fun showCloseWarning() {
+        if (confirmDialogTitle == null
+            && confirmDialogMsg == null
+            && confirmDialogLeaveBtnText == null
+            && confirmDialogCancelBtnText == null) {
+            this.finish()
+            return
+        }
+
+        val builder: AlertDialog.Builder? = let {
+            AlertDialog.Builder(it)
+        }
+            .setMessage(confirmDialogMsg)
+            .setTitle(confirmDialogTitle)
+            .setPositiveButton(confirmDialogLeaveBtnText) { _, _ ->
+                this.finish()
+            }
+            .setNegativeButton(confirmDialogCancelBtnText, null)
+
+        val dialog = builder?.create()
+        dialog?.show()
     }
 }
 

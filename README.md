@@ -41,7 +41,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.4.1'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.4.2'
 }
 ```
 
@@ -69,6 +69,7 @@ val config = CPXConfigurationBuilder(
             //.withSubId2("subId2")
             //.withEmail("user@email.com")
             //.withExtraInfo(arrayOf("value1", "value2"))
+            //.withCustomConfirmCloseDialogTexts("Title", "msg", "ok", "cancel")
             .build()
 
 val cpx = CPXResearch.init(config)
@@ -92,6 +93,7 @@ CPXConfiguration config = new CPXConfigurationBuilder("<Your app id>",
         //.withSubId2("subId2")
         //.withEmail("user@email.com")
         //.withExtraInfo(new String[]{"value1", "value2"})
+        //.withCustomConfirmCloseDialogTexts("Title", "msg", "ok", "cancel")
         .build();
 
 cpxResearch = CPXResearch.Companion.init(config);

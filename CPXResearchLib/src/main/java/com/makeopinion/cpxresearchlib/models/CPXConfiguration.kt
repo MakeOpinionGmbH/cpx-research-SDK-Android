@@ -13,7 +13,11 @@ class CPXConfiguration(
         val subId1: String?,
         val subId2: String?,
         val extraInfo: Array<String>?,
-        var style: CPXStyleConfiguration
+        var style: CPXStyleConfiguration,
+        val confirmDialogTitle: String?,
+        val confirmDialogMsg: String?,
+        val confirmDialogLeaveBtnText: String?,
+        val confirmDialogCancelBtnText: String?
 ): Serializable {
         constructor(builder: CPXConfigurationBuilder) : this(
                 builder.appId,
@@ -23,7 +27,11 @@ class CPXConfiguration(
                 builder.subId1,
                 builder.subId2,
                 builder.extraInfo,
-                builder.style
+                builder.style,
+                builder.confirmDialogTitle,
+                builder.confirmDialogMsg,
+                builder.confirmDialogLeaveBtnText,
+                builder.confirmDialogCancelBtnText
         )
 
         fun queryItems(): HashMap<String, String?> {
@@ -42,7 +50,7 @@ class CPXConfiguration(
                         Pair("text", style.text),
                         Pair("textsize", "${style.textSize.toPx()}"),
                         Pair("sdk", "android"),
-                        Pair("sdk_version", "1.4.1"),
+                        Pair("sdk_version", "1.4.2"),
                         Pair("secure_hash", CPXHash.md5("${extUserId}-${secureHash}"))
                 )
 
@@ -68,6 +76,14 @@ class CPXConfigurationBuilder(val appId: String,
                 private set
         var extraInfo: Array<String>? = null
                 private set
+        var confirmDialogTitle: String? = "Leave Survey"
+                private set
+        var confirmDialogMsg: String? = "Once you leave this survey, you won\'t be able to try it again.\n\nDo you want to continue?"
+                private set
+        var confirmDialogLeaveBtnText: String? = "Leave Survey"
+                private set
+        var confirmDialogCancelBtnText: String? = "Cancel"
+                private set
 
         fun withEmail(email: String) = apply { this.email = email }
 
@@ -76,6 +92,16 @@ class CPXConfigurationBuilder(val appId: String,
         fun withSubId2(subId: String) = apply { this.subId2 = subId }
 
         fun withExtraInfo(extraInfo: Array<String>) = apply { this.extraInfo = extraInfo }
+
+        fun withCustomConfirmCloseDialogTexts(title: String?,
+                                              msg: String?,
+                                              leaveButtonText: String?,
+                                              cancelButtonText: String?) = apply {
+                this.confirmDialogTitle = title
+                this.confirmDialogMsg = msg
+                this.confirmDialogLeaveBtnText = leaveButtonText
+                this.confirmDialogCancelBtnText = cancelButtonText
+        }
 
         fun build() = CPXConfiguration(this)
 }
