@@ -27,6 +27,7 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
 
     init {
         cpxResearch.registerListener(this)
+        items = cpxResearch.surveys
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
