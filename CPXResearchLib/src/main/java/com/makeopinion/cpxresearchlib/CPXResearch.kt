@@ -34,6 +34,7 @@ class CPXResearch(private val configuration: CPXConfiguration) {
     private var listeners = emptyList<CPXResearchListener>().toMutableList()
     private var bannerViewHandler: CPXBannerViewHandler? = null
     private var intervalHandler: Handler? = null
+    private var hasReceivedSurveys = false
 
     var surveys = emptyList<SurveyItem>().toMutableList()
         private set
@@ -317,10 +318,11 @@ class CPXResearch(private val configuration: CPXConfiguration) {
         override fun onSurveyResponse(model: SurveyModel) {
             CPXLogger.f("onSurveyResponse($model)")
             model.surveys?.let { surveyArray ->
-                val newSurveys = surveyArray.toList()
-                if (!newSurveys.isEqualTo(surveys)) {
+                val newSurveys =  surveyArray.toList()
+                if (!newSurveys.isEqualTo(surveys) || !hasReceivedSurveys) {
                     surveys = surveyArray.toMutableList()
                     listeners.forEach { it.onSurveysUpdated() }
+                    hasReceivedSurveys = true
                 }
 
                 model.transactions?.let { transactionArray ->

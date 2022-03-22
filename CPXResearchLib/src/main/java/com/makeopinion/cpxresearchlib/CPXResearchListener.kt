@@ -5,11 +5,15 @@ import com.makeopinion.cpxresearchlib.models.TransactionItem
 interface CPXResearchListener {
     /**
      * Called when the surveys did change, meaning there could be new, updated and/or removed ones.
+     * This callback is also called after the first successful request of surveys after
+     * initialization regardless if there are new surveys or not.
      */
     fun onSurveysUpdated()
 
     /**
      * Called when there are changes (added, removed, edited) unpaid transactions.
+     * This callback is only called if there are unpaid transactions
+     * delivered by the server's response. This is not active by default.
      *
      * @param unpaidTransactions A list of currently unpaid transactions.
      */
