@@ -14,6 +14,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
+- [ProGuard](#proguard)
 - [Logging](#logging)
 
 # Prerequisites
@@ -444,6 +445,24 @@ private void initCPX() {
     cpxResearch = CPXResearch.Companion.init(this, config);
 }
 ```
+
+# ProGuard
+To use ProGuard minifying for your app, add the rules to your app's proguard-rules.pro file to exclude the SDK from being minified:
+```groovy
+-keep class com.makeopinion.cpxresearchlib.** { *; }
+```
+
+To also surpress warnings from the underlying okhttp library you can add the following as well:
+```groovy
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.*
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE
+```
+
 # Logging
 CPXResearch provides an internal debug logging mechanism that can be activated calling the function setLogMode(boolean). If set to true the SDK will log in memory.
 Logs can be exported calling exportLog(onActivity).
