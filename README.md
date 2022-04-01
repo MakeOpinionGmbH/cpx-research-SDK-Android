@@ -42,7 +42,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.4.5'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.4.6'
 }
 ```
 
