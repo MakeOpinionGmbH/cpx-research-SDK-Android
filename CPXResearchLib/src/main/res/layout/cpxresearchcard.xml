@@ -57,7 +57,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginEnd="4dp"
-                android:src="@drawable/icon_clock"/>
+                android:src="@drawable/cpx_icon_clock"/>
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="match_parent"
@@ -74,27 +74,27 @@
                 android:id="@+id/iv_star1"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@drawable/icon_star"/>
+                android:src="@drawable/cpx_icon_star"/>
             <ImageView
                 android:id="@+id/iv_star2"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@drawable/icon_star"/>
+                android:src="@drawable/cpx_icon_star"/>
             <ImageView
                 android:id="@+id/iv_star3"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@drawable/icon_star"/>
+                android:src="@drawable/cpx_icon_star"/>
             <ImageView
                 android:id="@+id/iv_star4"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@drawable/icon_star"/>
+                android:src="@drawable/cpx_icon_star"/>
             <ImageView
                 android:id="@+id/iv_star5"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@drawable/icon_star"/>
+                android:src="@drawable/cpx_icon_star"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
