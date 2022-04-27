@@ -42,7 +42,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.4.6'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.0'
 }
 ```
 
@@ -50,7 +50,9 @@ dependencies {
 
 ## Initialize the library
 
-Enter the following code early in your App's life cycle, for example in the App's Application class. You can extra information like subIds, email or an entire array of specific data that will be sent back to you when you finish a transaction. For Kotlin
+[For a Java documentation click here](READMEJAVA.md)
+
+Enter the following code early in your App's life cycle, for example in the App's Application class. You can extra information like subIds, email or an entire array of specific data that will be sent back to you when you finish a transaction.
 
 ```kotlin
 val style = CPXStyleConfiguration(
@@ -76,33 +78,9 @@ val config = CPXConfigurationBuilder(
 val cpx = CPXResearch.init(config)
 ```
 
-or for Java
-
-```java
-CPXStyleConfiguration style = new CPXStyleConfiguration(SurveyPosition.SideRightNormal,
-        "Earn up to 3 Coins in<br> 4 minutes with surveys",
-        20,
-        "#ffffff",
-        "#ffaf20",
-        true);
-
-CPXConfiguration config = new CPXConfigurationBuilder("<Your app id>",
-        "<Your external user id>",
-        "<Your secure hash>",
-        style)
-        //.withSubId1("subId1")
-        //.withSubId2("subId2")
-        //.withEmail("user@email.com")
-        //.withExtraInfo(new String[]{"value1", "value2"})
-        //.withCustomConfirmCloseDialogTexts("Title", "msg", "ok", "cancel")
-        .build();
-
-cpxResearch = CPXResearch.Companion.init(config);
-```
-
 ## Using the SDK's banner for overlays
 
-In your Activity activate the automatic banner display and set the delegate to handle CPX Research events. For Kotlin
+In your Activity activate the automatic banner display and set the delegate to handle CPX Research events.
 
 ```kotlin
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,22 +93,15 @@ In your Activity activate the automatic banner display and set the delegate to h
     }
 ```
 
-or Java
-
-```java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-
-    CPXApplication app = (CPXApplication) getApplication();
-    app.getCpxResearch().setSurveyVisibleIfAvailable(true, this);
-}
-```
-
 ## Using the CPX Survey Cards
 
 To use a recycler view with a default survey card you can get a fully prepared RecyclerView from the SDK. Add this to a parent view on your activity. The recycler view also handles click and update events for you.
+
+### CPXCardStyle
+#### DEFAULT
+![Preview DEFAULT](img/CPXCardStyle_DEFAULT.png)
+#### SMALL
+![Preview SMALL](img/CPXCardStyle_SMALL.png)
 
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,12 +115,13 @@ override fun onCreate(savedInstanceState: Bundle?) {
         // OR
 
         val cardConfig = CPXCardConfiguration.Builder()
-                    .accentColor(Color.parseColor("#41d7e5")) // color of amount and currency
-                    .backgroundColor(Color.WHITE) // background of the card
-                    .starColor(Color.parseColor("#ffaa00")) // color for active stars
-                    .inactiveStarColor(Color.parseColor("#dfdfdf")) // color for inactive stars
-                    .textColor(Color.DKGRAY) // text color for survey time
-                    .promotionAmountColor(Color.RED) // text color for promotion offers
+                    .accentColor(Color.parseColor("#41d7e5"))
+                    .backgroundColor(Color.WHITE)
+                    .starColor(Color.parseColor("#ffaa00"))
+                    .inactiveStarColor(Color.parseColor("#dfdfdf"))
+                    .textColor(Color.DKGRAY)
+                    .dividerColor(Color.parseColor("#5A7DFE")) // only for SMALL style
+                    .promotionAmountColor(Color.RED) // text color for promotion offers (only for DEFAULT style)
                     .cardsOnScreen(4) // set how many cards are initially visible on screen
                     .cornerRadius(4f) // set the corner radius of cards
                     .maximumSurveys(4) // set maximum amount of surveys showns
@@ -160,50 +132,15 @@ override fun onCreate(savedInstanceState: Bundle?) {
                     //.paddingRight(16f) // just set the right
                     //.paddingTop(16f) // just set the top
                     //.paddingBottom(16f) //just set the bottom
+                    //.cpxCardStyle(CPXCardStyle.DEFAULT) // set card style
+                    //.fixedCPXCardWidth(132) // instead of autocalculate use a fixed card width
+                    //.currencyPrefixImage(R.drawable.cpx_icon_star) // for SMALL style only: set an optional image before the currency text
                     .build()
 
         (application as? CPXApplication)?.let {
             it.cpxResearch().insertCPXResearchCardsIntoContainer(this, parentView, cardConfig)
         }
 }
-```
-or Java
-
-```java
-protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        ViewGroup parentView = findViewById(R.id.ll_container);
-
-        CPXApplication app = (CPXApplication) getApplication();
-
-        CPXCardConfiguration cardConfig = new CPXCardConfiguration.Builder()
-                .build(); //don't set anything, just use default values
-
-        // OR
-
-        CPXCardConfiguration cardConfig = new CPXCardConfiguration.Builder()
-                .accentColor(Color.parseColor("#41d7e5")) // color of amount and currency
-                .backgroundColor(Color.WHITE) // background of the card
-                .starColor(Color.parseColor("#ffaa00")) // color for active stars
-                .inactiveStarColor(Color.parseColor("#dfdfdf")) // color for inactive stars
-                .textColor(Color.DKGRAY) // text color for survey time
-                .promotionAmountColor(Color.RED) // text color for promotion offers
-                .cardsOnScreen(4) // set how many cards are initially visible on screen
-                .cornerRadius(4f) // set the corner radius of cards
-                .maximumSurveys(4) // set maximum amount of surveys showns
-                .paddingHorizontal(16f) // set left/right
-                //.paddingVertical(16f) // set top/bottom
-                //.padding(16f) // set all borders
-                //.paddingLeft(16f) // just set the left
-                //.paddingRight(16f) // just set the right
-                //.paddingTop(16f) // just set the top
-                //.paddingBottom(16f) //just set the bottom
-                .build();
-
-        app.getCpxResearch().insertCPXResearchCardsIntoContainer(this, parentView, cardConfig);
-    }
 ```
 
 ## Handling events of the SDK
@@ -246,42 +183,6 @@ In your Activity set the delegate to handle CPX Research events. In Kotlin
     }
 ```
 
-or Java
-
-```java
-app.getCpxResearch().registerListener(new CPXResearchListener() {
-    @Override
-    public void onSurveysUpdated() {
-        // get current surveys if needed with app.getCpxResearch().getSurveys()
-    }
-
-    @Override
-    public void onTransactionsUpdated(List<TransactionItem> unpaidTransactions) {
-
-    }
-
-    @Override
-    public void onSurveysDidOpen() {
-
-    }
-
-    @Override
-    public void onSurveysDidClose() {
-
-    }
-
-    @Override
-    public void onSurveyDidOpen() {
-
-    }
-
-    @Override
-    public void onSurveyDidClose() {
-
-    }
-});
-```
-
 ## Additional functions of the SDK
 
 Tell the library to show the surveys list, call
@@ -292,20 +193,12 @@ Tell the library to show the surveys list, call
 }
 ```
 
-```java
-((CPXApplication) getApplication()).getCpxResearch().openSurveyList(this);
-```
-
 Show a specific survey
 
 ```kotlin
 (activity?.application as? CPXApplication)?.let { app ->
     app.cpxResearch().openSurvey(this, surveyId)
 }
-```
-
-```java
-((CPXApplication) getApplication()).getCpxResearch().openSurvey(this, surveyId);
 ```
 
 Mark a transaction as paid
@@ -316,19 +209,11 @@ Mark a transaction as paid
 }
 ```
 
-```java
-((CPXApplication) getApplication()).getCpxResearch().markTransactionAsPaid(transactionId, messageId);
-```
-
 Manually request an update to the surveys
 ```kotlin
 (activity?.application as? CPXApplication)?.let { app ->
     app.cpxResearch().requestSurveyUpdate(false) // set parameter to true if you also want to update the unpaid transactions
 }
-```
-
-```java
-((CPXApplication) getApplication()).getCpxResearch().requestSurveyUpdate(false); // set parameter to true if you also want to update the unpaid transactions
 ```
 
 Access all current surveys for the user
@@ -338,19 +223,11 @@ Access all current surveys for the user
 }
 ```
 
-```java
-List<SurveyItem> surveys = ((CPXApplication) getApplication()).getCpxResearch().getSurveys();
-```
-
 Access all current unpaid transactions for the user
 ```kotlin
 (activity?.application as? CPXApplication)?.let { app ->
     val transactions = app.cpxResearch().unpaidTransactions
 }
-```
-
-```java
-List<TransactionItem> transactions = ((CPXApplication) getApplication()).getCpxResearch().getUnpaidTransactions();
 ```
 
 ## How to add an own application class
@@ -359,12 +236,6 @@ List<TransactionItem> transactions = ((CPXApplication) getApplication()).getCpxR
 
 ```kotlin
 class CPXApplication: Application() { }
-```
-
-or Java
-
-```java
-public class CPXApplication extends Application { }
 ```
 
 2. Add this Application-class to your App's Manifest
@@ -377,7 +248,6 @@ public class CPXApplication extends Application { }
 ```
 
 3. In your Application class overwrite the onCreate Method and add the variables/getter.
-   For Kotlin
 
 ```kotlin
 override fun onCreate() {
@@ -409,40 +279,6 @@ private fun initCPX(context: Context) {
 
     val cpx = CPXResearch.init(context, config)
     cpxResearch = cpx
-}
-```
-
-or Java
-
-```java
-private CPXResearch cpxResearch;
-
-@Override
-public void onCreate() {
-    super.onCreate();
-    initCPX();
-}
-
-@NonNull
-public CPXResearch getCpxResearch() {
-    return cpxResearch;
-}
-
-private void initCPX() {
-    CPXStyleConfiguration style = new CPXStyleConfiguration(SurveyPosition.SideRightNormal,
-            "Earn up to 3 Coins in<br> 4 minutes with surveys",
-            20,
-            "#ffffff",
-            "#ffaf20",
-            true);
-
-    CPXConfiguration config = new CPXConfigurationBuilder("<Your app id>",
-            "<Your external user id>",
-            "<Your secure hash>",
-            style)
-            .build();
-
-    cpxResearch = CPXResearch.Companion.init(this, config);
 }
 ```
 

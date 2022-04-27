@@ -1,3 +1,4 @@
 <resources>
 
+    <string name="currency_symbol">Currency symbol</string>
 </resources>

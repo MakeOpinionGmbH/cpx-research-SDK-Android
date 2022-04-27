@@ -1,13 +1,20 @@
 package com.makeopinion.cpxresearchlib.models
 
+import android.app.Activity
 import android.graphics.Color
+import android.util.TypedValue
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
+import com.makeopinion.cpxresearchlib.R
 
 class CPXCardConfiguration(
-    val accentColor: Int,
-    val backgroundColor: Int,
-    val inactiveStarColor: Int,
-    val starColor: Int,
-    val textColor: Int,
+    @ColorInt val accentColor: Int,
+    @ColorInt val backgroundColor: Int,
+    @ColorInt val inactiveStarColor: Int,
+    @ColorInt val starColor: Int,
+    @ColorInt val textColor: Int,
+    @ColorInt val dividerColor: Int,
     val cardsOnScreen: Int,
     val promotionAmountColor: Int,
     val cornerRadius: Float,
@@ -15,14 +22,19 @@ class CPXCardConfiguration(
     val paddingLeft: Float,
     val paddingRight: Float,
     val paddingTop: Float,
-    val paddingBottom: Float
+    val paddingBottom: Float,
+    val cpxCardStyle: CPXCardStyle,
+    val fixedWidth: Int,
+    @DrawableRes val currencyPrefixImage: Int?
 ) {
     class Builder {
-        private var accentColor: Int = Color.parseColor("#41d7e5")
-        private var backgroundColor: Int = Color.WHITE
-        private var inactiveStarColor: Int = Color.parseColor("#dfdfdf")
-        private var starColor: Int = Color.parseColor("#ffaa00")
-        private var textColor: Int = Color.DKGRAY
+        @ColorInt private var accentColor: Int = Color.parseColor("#41d7e5")
+        @ColorInt private var backgroundColor: Int = Color.WHITE
+        @ColorInt private var inactiveStarColor: Int = Color.parseColor("#dfdfdf")
+        @ColorInt private var starColor: Int = Color.parseColor("#ffaa00")
+        @ColorInt private var textColor: Int = Color.DKGRAY
+        @ColorInt private var dividerColor: Int = Color.parseColor("#5A7DFE")
+
         private var cardsOnScreen: Int = 3
         private var promotionAmountColor: Int = Color.RED
         private var cornerRadius: Float = 10f
@@ -33,13 +45,18 @@ class CPXCardConfiguration(
         private var paddingTop: Float = 0f
         private var paddingBottom: Float = 0f
 
+        private var cpxCardStyle: CPXCardStyle = CPXCardStyle.DEFAULT
+        @DrawableRes private var currencyPrefixImage: Int? = null
+
+        private var fixedWidth: Int = 0
+
         /**
          * Color the amount and currency is in.
          *
          * @param color The new accent color.
          * @return This Builder instance updated with the set color.
          */
-        fun accentColor(color: Int) = apply { this.accentColor = color }
+        fun accentColor(@ColorInt color: Int) = apply { this.accentColor = color }
 
         /**
          * The background color of the card.
@@ -47,7 +64,7 @@ class CPXCardConfiguration(
          * @param color The new color value.
          * @return This Builder instance updated with the set color.
          */
-        fun backgroundColor(color: Int) = apply { this.backgroundColor = color }
+        fun backgroundColor(@ColorInt color: Int) = apply { this.backgroundColor = color }
 
         /**
          * The color of inactive stars.
@@ -55,7 +72,7 @@ class CPXCardConfiguration(
          * @param color The new color value.
          * @return This Builder instance updated with the set color.
          */
-        fun inactiveStarColor(color: Int) = apply { this.inactiveStarColor = color }
+        fun inactiveStarColor(@ColorInt color: Int) = apply { this.inactiveStarColor = color }
 
         /**
          * The color of active stars in the rating.
@@ -63,7 +80,7 @@ class CPXCardConfiguration(
          * @param color The new color value.
          * @return This Builder instance updated with the set color.
          */
-        fun starColor(color: Int) = apply { this.starColor = color }
+        fun starColor(@ColorInt color: Int) = apply { this.starColor = color }
 
         /**
          * The text color for the estimated length the survey takes to complete.
@@ -71,7 +88,15 @@ class CPXCardConfiguration(
          * @param color The new color value.
          * @return This Builder instance updated with the set color.
          */
-        fun textColor(color: Int) = apply { this.textColor = color }
+        fun textColor(@ColorInt color: Int) = apply { this.textColor = color }
+
+        /**
+         * The divider color for the left vertical color bar on small CPXCardStyle.
+         *
+         * @param color The new color value.
+         * @return This Builder instance updated with the set color.
+         */
+        fun dividerColor(@ColorInt color: Int) = apply { this.dividerColor = color }
 
         /**
          * How many cards should be visible on screen.
@@ -173,6 +198,31 @@ class CPXCardConfiguration(
         }
 
         /**
+         * Sets the card style used.
+         *
+         * @param style The new CPXCardStyle.
+         * @return This Builder instance.
+         */
+        fun cpxCardStyle(style: CPXCardStyle) = apply { this.cpxCardStyle = style }
+
+        /**
+         * Set the card width to a fixed value.
+         * Set it to 0 to auto calculate based on screen width and items that should be visible.
+         *
+         * @param width The fixed width in dp.
+         * @return This Builder instance.
+         */
+        fun fixedCPXCardWidth(width: Int) = apply { this.fixedWidth = width }
+
+        /**
+         * Sets an 15dp x 17dp icon in front of the currency value on small CPXCardStyle.
+         *
+         * @param res The image resource to set in front of the currency value String.
+         * @return This Builder instance.
+         */
+        fun currencyPrefixImage(@DrawableRes res: Int) = apply { this.currencyPrefixImage = res }
+
+        /**
          * Generate the CPXCardConfiguration object.
          *
          * @return the CPXCardConfiguration with the set values.
@@ -182,6 +232,7 @@ class CPXCardConfiguration(
                 inactiveStarColor,
                 starColor,
                 textColor,
+                dividerColor,
                 cardsOnScreen,
                 promotionAmountColor,
                 cornerRadius,
@@ -189,6 +240,29 @@ class CPXCardConfiguration(
                 paddingLeft,
                 paddingRight,
                 paddingTop,
-                paddingBottom)
+                paddingBottom,
+                cpxCardStyle,
+                fixedWidth,
+                currencyPrefixImage)
     }
+
+    fun getWidth(activity: Activity): Int {
+        val density = activity.resources.displayMetrics.density
+        return if (fixedWidth == 0) {
+            val paddingLeftInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, paddingLeft, activity.resources.displayMetrics).toInt()
+            val paddingRightInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, paddingRight, activity.resources.displayMetrics).toInt()
+            val marginInPx = 2 * cardsOnScreen * 4 * density + paddingLeftInPx + paddingRightInPx
+            val elementWidth = maxOf((activity.resources.displayMetrics.widthPixels - marginInPx) / cardsOnScreen, 80.0f * density)
+
+            elementWidth.toInt()
+        } else {
+            val elementWidth = fixedWidth * density
+            elementWidth.toInt()
+        }
+    }
+}
+
+enum class CPXCardStyle(@LayoutRes val resource: Int) {
+    DEFAULT(R.layout.cpxresearchcard),
+    SMALL(R.layout.cpxresearchsmallcard)
 }

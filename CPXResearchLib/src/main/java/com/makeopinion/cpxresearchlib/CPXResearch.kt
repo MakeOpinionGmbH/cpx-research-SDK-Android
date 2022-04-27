@@ -276,23 +276,20 @@ class CPXResearch(private val configuration: CPXConfiguration) {
         CPXLogger.f("insertCPXResearchCardsIntoContainer($activity, $parentView, $configuration)")
         val inflater = LayoutInflater.from(activity)
         val container = inflater.inflate(R.layout.cpxresearchcards, parentView, false)
-
-        val density = activity.resources.displayMetrics.density
-        val paddingLeftInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingLeft, activity.resources.displayMetrics).toInt()
-        val paddingRightInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingRight, activity.resources.displayMetrics).toInt()
-        val paddingTopInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingTop, activity.resources.displayMetrics).toInt()
-        val paddingBottomInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingBottom, activity.resources.displayMetrics).toInt()
-        val marginInPx = 2 * configuration.cardsOnScreen * 4 * density + paddingLeftInPx + paddingRightInPx
-        val elementWidth = maxOf((activity.resources.displayMetrics.widthPixels - marginInPx) / configuration.cardsOnScreen, 80.0f * density)
-
         val elementRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.cornerRadius, activity.resources.displayMetrics)
 
         val rv = container.findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = CPXResearchCards(this, configuration, elementWidth.toInt(), elementRadius) { view ->
+        val adapter = CPXResearchCards(this, configuration, configuration.getWidth(activity), elementRadius) { view ->
             view?.let { openSurvey(activity, it.tag as String) }
         }
         rv.adapter = adapter
         rv.clipToPadding = false
+
+        val paddingLeftInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingLeft, activity.resources.displayMetrics).toInt()
+        val paddingRightInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingRight, activity.resources.displayMetrics).toInt()
+        val paddingTopInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingTop, activity.resources.displayMetrics).toInt()
+        val paddingBottomInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, configuration.paddingBottom, activity.resources.displayMetrics).toInt()
+
         rv.setPadding(paddingLeftInPx,
                 paddingTopInPx,
                 paddingRightInPx,
@@ -324,18 +321,18 @@ class CPXResearch(private val configuration: CPXConfiguration) {
                     listeners.forEach { it.onSurveysUpdated() }
                     hasReceivedSurveys = true
                 }
-
-                model.transactions?.let { transactionArray ->
-                    val newTransactions = transactionArray.toList()
-                    if (!newTransactions.isEqualTo(unpaidTransactions)) {
-                        unpaidTransactions = transactionArray.toMutableList()
-                        listeners.forEach { it.onTransactionsUpdated(unpaidTransactions) }
-                    }
-                }
-
-                cpxText = model.text
-                installBanner()
             }
+
+            model.transactions?.let { transactionArray ->
+                val newTransactions = transactionArray.toList()
+                if (!newTransactions.isEqualTo(unpaidTransactions)) {
+                    unpaidTransactions = transactionArray.toMutableList()
+                    listeners.forEach { it.onTransactionsUpdated(unpaidTransactions) }
+                }
+            }
+
+            cpxText = model.text
+            installBanner()
         }
 
         override fun onError(anError: Exception) {

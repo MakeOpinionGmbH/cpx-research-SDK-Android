@@ -31,7 +31,7 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.cpxresearchcard, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(config.cpxCardStyle.resource, parent, false)
         v.setOnClickListener(onClickListener)
         return ViewHolder(v, cpxResearch, config, elementWidth, elementRadius)
     }
@@ -53,25 +53,38 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
         fun bindItems(survey: SurveyItem) {
             itemView.tag = survey.id
             val amount = itemView.findViewById(R.id.tv_amount) as TextView
-            val amountOriginal = itemView.findViewById(R.id.tv_amount_original) as TextView
+            val amountOriginal = itemView.findViewById(R.id.tv_amount_original) as? TextView
             val currency = itemView.findViewById(R.id.tv_currency) as TextView
             val time = itemView.findViewById(R.id.tv_time) as TextView
-            val timeIcon = itemView.findViewById(R.id.iv_time) as ImageView
+            val timeIcon = itemView.findViewById(R.id.iv_time) as? ImageView
             val star1 = itemView.findViewById(R.id.iv_star1) as ImageView
             val star2 = itemView.findViewById(R.id.iv_star2) as ImageView
             val star3 = itemView.findViewById(R.id.iv_star3) as ImageView
             val star4 = itemView.findViewById(R.id.iv_star4) as ImageView
             val star5 = itemView.findViewById(R.id.iv_star5) as ImageView
             val bg = itemView.findViewById(R.id.cv_container) as CardView
+            val currencyPrefixImage = itemView.findViewById(R.id.iv_currency_prefix) as? ImageView
+            val divider = itemView.findViewById(R.id.view_divider) as? View
 
             if (survey.hasOfferPayout) {
-                amountOriginal.visibility = View.VISIBLE
-                amountOriginal.text = survey.payout_original
-                amountOriginal.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                amountOriginal?.visibility = View.VISIBLE
+                amountOriginal?.text = survey.payout_original
+                amountOriginal?.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             } else {
-                amountOriginal.visibility = View.GONE
-                amountOriginal.text = ""
+                amountOriginal?.visibility = View.GONE
+                amountOriginal?.text = ""
             }
+
+            if (config.currencyPrefixImage != null) {
+                currencyPrefixImage?.setImageResource(config.currencyPrefixImage)
+                val currencyPrefixImageFilter = PorterDuffColorFilter(config.accentColor, PorterDuff.Mode.SRC_ATOP)
+                currencyPrefixImage?.colorFilter = currencyPrefixImageFilter
+                currencyPrefixImage?.visibility = View.VISIBLE
+            } else {
+                currencyPrefixImage?.visibility = View.GONE
+            }
+
+            divider?.setBackgroundColor(config.dividerColor)
 
             bg.setCardBackgroundColor(config.backgroundColor)
             bg.radius = elementRadius
@@ -81,12 +94,12 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
 
             amount.text = survey.payout
             amount.setTextColor(if (survey.hasOfferPayout) config.promotionAmountColor else config.accentColor)
-            amountOriginal.setTextColor(config.accentColor)
+            amountOriginal?.setTextColor(config.accentColor)
             currency.text = cpxResearch.cpxText?.currencyNamePlural ?: ""
             currency.setTextColor(config.accentColor)
             time.text = "${survey.loi} ${cpxResearch.cpxText?.shortCurtMin ?: "Mins"}"
             time.setTextColor(config.textColor)
-            timeIcon.colorFilter = PorterDuffColorFilter(config.accentColor, PorterDuff.Mode.SRC_ATOP)
+            timeIcon?.colorFilter = PorterDuffColorFilter(config.accentColor, PorterDuff.Mode.SRC_ATOP)
 
             val rating = survey.statisticsRatingAvg
             val activeFilter = PorterDuffColorFilter(config.starColor, PorterDuff.Mode.SRC_ATOP)
