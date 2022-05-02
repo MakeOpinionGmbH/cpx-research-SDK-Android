@@ -136,6 +136,8 @@ protected void onCreate(Bundle savedInstanceState) {
                 //.cpxCardStyle(CPXCardStyle.DEFAULT) // set card style
                 //.fixedCPXCardWidth(132) // instead of autocalculate use a fixed card width
                 //.currencyPrefixImage(R.drawable.cpx_icon_star) // for SMALL style only: set an optional image before the currency text
+                //.hideCurrencyName(true) // hides the currency name behind the amount
+                //.hideRatingAmount(false) // set to false to show the total amount of ratings behind the stars
                 .build();
 
         app.getCpxResearch().insertCPXResearchCardsIntoContainer(this, parentView, cardConfig);
