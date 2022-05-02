@@ -25,7 +25,9 @@ class CPXCardConfiguration(
     val paddingBottom: Float,
     val cpxCardStyle: CPXCardStyle,
     val fixedWidth: Int,
-    @DrawableRes val currencyPrefixImage: Int?
+    @DrawableRes val currencyPrefixImage: Int?,
+    val hideCurrencyName: Boolean,
+    val hideRatingAmount: Boolean
 ) {
     class Builder {
         @ColorInt private var accentColor: Int = Color.parseColor("#41d7e5")
@@ -49,6 +51,9 @@ class CPXCardConfiguration(
         @DrawableRes private var currencyPrefixImage: Int? = null
 
         private var fixedWidth: Int = 0
+
+        private var hideCurrencyName: Boolean = false
+        private var hideRatingAmount: Boolean = true
 
         /**
          * Color the amount and currency is in.
@@ -223,6 +228,22 @@ class CPXCardConfiguration(
         fun currencyPrefixImage(@DrawableRes res: Int) = apply { this.currencyPrefixImage = res }
 
         /**
+         * Hides/Shows the currency name.
+         *
+         * @param boolean Set to true to hide the currency name.
+         * @return This Builder instance.
+         */
+        fun hideCurrencyName(boolean: Boolean) = apply { this.hideCurrencyName = boolean }
+
+        /**
+         * Hides/Shows the amount of ratings in total.
+         *
+         * @param boolean Set to true to hide the amount of ratings.
+         * @return This Builder instance.
+         */
+        fun hideRatingAmount(boolean: Boolean) = apply { this.hideRatingAmount = boolean }
+
+        /**
          * Generate the CPXCardConfiguration object.
          *
          * @return the CPXCardConfiguration with the set values.
@@ -243,7 +264,9 @@ class CPXCardConfiguration(
                 paddingBottom,
                 cpxCardStyle,
                 fixedWidth,
-                currencyPrefixImage)
+                currencyPrefixImage,
+                hideCurrencyName,
+                hideRatingAmount)
     }
 
     fun getWidth(activity: Activity): Int {

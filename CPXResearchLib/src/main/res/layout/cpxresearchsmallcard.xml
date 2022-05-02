@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cv_container"
     android:layout_width="132dp"
-    android:layout_height="45dp"
+    android:layout_height="50dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="10dp"
     android:layout_margin="4dp">
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginStart="5dp">
+            android:layout_marginStart="8dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,8 +31,8 @@
                 tools:ignore="UseCompoundDrawables">
                 <ImageView
                     android:id="@+id/iv_currency_prefix"
-                    android:layout_width="15dp"
-                    android:layout_height="17dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/cpx_icon_clock"
                     android:contentDescription="@string/currency_symbol" />
@@ -42,18 +42,17 @@
                     android:layout_height="wrap_content"
                     tools:text="412.50"
                     android:gravity="center_horizontal|start"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#4800AA"
-                    android:maxLines="1"
-                    android:layout_marginStart="2dp"/>
+                    android:maxLines="1" />
                 <TextView
                     android:id="@+id/tv_currency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Coins"
                     android:gravity="center_horizontal"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#4800AA"
                     android:maxLines="1"
@@ -63,15 +62,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginStart="2dp">
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="5 min"
                     android:textColor="#8e8e93"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
                     android:maxLines="1"/>
 
                 <TextView
@@ -79,10 +79,10 @@
                     android:layout_height="wrap_content"
                     android:textColor="#8e8e93"
                     android:textSize="12sp"
-                    android:textStyle="bold"
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="2dp"
                     android:text="|"
+                    android:fontFamily="sans-serif-medium"
                     tools:ignore="HardcodedText" />
 
                 <LinearLayout
@@ -90,35 +90,51 @@
                     android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/iv_star1"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:src="@drawable/cpx_icon_star"
                         tools:ignore="ContentDescription" />
                     <ImageView
                         android:id="@+id/iv_star2"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:src="@drawable/cpx_icon_star"
                         tools:ignore="ContentDescription" />
                     <ImageView
                         android:id="@+id/iv_star3"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:src="@drawable/cpx_icon_star"
                         tools:ignore="ContentDescription" />
                     <ImageView
                         android:id="@+id/iv_star4"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:src="@drawable/cpx_icon_star"
                         tools:ignore="ContentDescription" />
                     <ImageView
                         android:id="@+id/iv_star5"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:src="@drawable/cpx_icon_star"
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp">
+                    <TextView
+                        android:id="@+id/tv_amountRatings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        tools:text="(77)"
+                        android:textColor="#8e8e93"
+                        android:textSize="8sp"
+                        android:maxLines="1"
+                        tools:ignore="SmallSp" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

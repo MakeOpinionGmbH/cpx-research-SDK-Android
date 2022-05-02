@@ -62,6 +62,7 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
             val star3 = itemView.findViewById(R.id.iv_star3) as ImageView
             val star4 = itemView.findViewById(R.id.iv_star4) as ImageView
             val star5 = itemView.findViewById(R.id.iv_star5) as ImageView
+            val amountRatings = itemView.findViewById(R.id.tv_amountRatings) as? TextView
             val bg = itemView.findViewById(R.id.cv_container) as CardView
             val currencyPrefixImage = itemView.findViewById(R.id.iv_currency_prefix) as? ImageView
             val divider = itemView.findViewById(R.id.view_divider) as? View
@@ -95,8 +96,14 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
             amount.text = survey.payout
             amount.setTextColor(if (survey.hasOfferPayout) config.promotionAmountColor else config.accentColor)
             amountOriginal?.setTextColor(config.accentColor)
-            currency.text = cpxResearch.cpxText?.currencyNamePlural ?: ""
-            currency.setTextColor(config.accentColor)
+            if (config.hideCurrencyName) {
+                currency.text = null
+                currency.visibility = View.GONE
+            } else {
+                currency.text = cpxResearch.cpxText?.currencyNamePlural ?: ""
+                currency.setTextColor(config.accentColor)
+                currency.visibility = View.VISIBLE
+            }
             time.text = "${survey.loi} ${cpxResearch.cpxText?.shortCurtMin ?: "Mins"}"
             time.setTextColor(config.textColor)
             timeIcon?.colorFilter = PorterDuffColorFilter(config.accentColor, PorterDuff.Mode.SRC_ATOP)
@@ -109,6 +116,13 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
             star3.colorFilter = if (rating > 2) activeFilter else inactiveFilter
             star4.colorFilter = if (rating > 3) activeFilter else inactiveFilter
             star5.colorFilter = if (rating > 4) activeFilter else inactiveFilter
+
+            if (config.hideRatingAmount) {
+                amountRatings?.visibility = View.GONE
+            } else {
+                amountRatings?.visibility = View.VISIBLE
+                amountRatings?.text = "(${survey.statisticsRatingCount})"
+            }
         }
     }
 
