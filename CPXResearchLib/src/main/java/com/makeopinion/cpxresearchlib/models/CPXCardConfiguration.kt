@@ -16,7 +16,7 @@ class CPXCardConfiguration(
     @ColorInt val textColor: Int,
     @ColorInt val dividerColor: Int,
     val cardsOnScreen: Int,
-    val promotionAmountColor: Int,
+    @ColorInt val promotionAmountColor: Int,
     val cornerRadius: Float,
     val maximumItems: Int,
     val paddingLeft: Float,

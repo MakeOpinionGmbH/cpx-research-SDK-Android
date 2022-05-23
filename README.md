@@ -42,7 +42,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.1'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.2'
 }
 ```
 
@@ -121,7 +121,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
                     .inactiveStarColor(Color.parseColor("#dfdfdf"))
                     .textColor(Color.DKGRAY)
                     .dividerColor(Color.parseColor("#5A7DFE")) // only for SMALL style
-                    .promotionAmountColor(Color.RED) // text color for promotion offers (only for DEFAULT style)
+                    .promotionAmountColor(Color.RED) // text color for promotion offers
                     .cardsOnScreen(4) // set how many cards are initially visible on screen
                     .cornerRadius(4f) // set the corner radius of cards
                     .maximumSurveys(4) // set maximum amount of surveys showns

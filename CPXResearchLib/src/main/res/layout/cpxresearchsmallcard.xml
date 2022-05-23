@@ -37,6 +37,17 @@
                     android:src="@drawable/cpx_icon_clock"
                     android:contentDescription="@string/currency_symbol" />
                 <TextView
+                    android:id="@+id/tv_amount_original"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="20.56"
+                    android:gravity="center_horizontal"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="bottom"
+                    android:maxLines="1"
+                    android:layout_marginHorizontal="1dp"/>
+                <TextView
                     android:id="@+id/tv_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
