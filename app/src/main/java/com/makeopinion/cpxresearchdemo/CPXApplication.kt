@@ -21,18 +21,23 @@ class CPXApplication: Application() {
 
     private fun initCPX() {
         val style = CPXStyleConfiguration(
-            SurveyPosition.CornerBottomLeft,
+            SurveyPosition.CornerBottomRight,
             "Earn Coins",
             20,
             "#ffffff",
-            "#ffaf20",
+            "#ffffff",
             true)
 
         val config = CPXConfigurationBuilder(
-            "",
-            "",
-            "",
+            "5878",
+            "1",
+            "secureHash",
             style)
+            .withSubId1("subId1")
+            .withSubId2("subId2")
+            .withEmail("user@email.com")
+            .withExtraInfo(arrayOf("value1", "value2"))
+            .withCustomConfirmCloseDialogTexts("title", "msg", "leave", "cancel")
             .build()
 
         val cpx = CPXResearch.init(config)

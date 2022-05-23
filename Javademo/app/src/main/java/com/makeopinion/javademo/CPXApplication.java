@@ -33,9 +33,9 @@ public class CPXApplication extends Application {
                 "#ffaf20",
                 true);
 
-        CPXConfiguration config = new CPXConfigurationBuilder("<your app id>",
-                "<extUserId>",
-                "<your secure hash>",
+        CPXConfiguration config = new CPXConfigurationBuilder("5878",
+                "1",
+                "secureHash",
                 style)
                 .build();
 

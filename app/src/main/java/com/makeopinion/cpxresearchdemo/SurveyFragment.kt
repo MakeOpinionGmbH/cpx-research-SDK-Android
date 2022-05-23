@@ -45,7 +45,7 @@ class SurveyFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         (activity?.application as? CPXApplication)?.let { app ->
             val adapter = SurveyAdapter(app.cpxResearch().surveys) { view ->
-                view?.let { app.cpxResearch().openSurvey(activity!!, it.tag as String) }
+                view?.let { app.cpxResearch().openSurvey(requireActivity(), it.tag as String) }
             }
             recyclerView.adapter = adapter
         }
