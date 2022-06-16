@@ -7,12 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.*
+import android.os.Build
 import android.os.Bundle
+import android.security.NetworkSecurityPolicy
 import android.util.Base64
 import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -176,12 +176,24 @@ class CPXWebViewActivity : Activity() {
             webView.settings.javaScriptCanOpenWindowsAutomatically = false
             webView.settings.domStorageEnabled = true
             webView.webViewClient = object : WebViewClient() {
+                @Deprecated("Deprecated in Java")
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     url?.let {
-                        view?.loadUrl(it)
                         calledUrls.add(it)
                     }
-                    return true
+
+                    if (url != null) {
+                        var isCleartextTrafficPermitted = true
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            isCleartextTrafficPermitted = NetworkSecurityPolicy.getInstance().isCleartextTrafficPermitted
+                        }
+                        if (!url.startsWith("https") && !isCleartextTrafficPermitted) {
+                            view?.loadUrl(url.replace("http", "https"))
+                            return true
+                        }
+                    }
+
+                    return false
                 }
             }
             webView.webChromeClient = object : WebChromeClient() {
