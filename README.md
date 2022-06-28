@@ -42,7 +42,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.3'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.4'
 }
 ```
 
@@ -163,6 +163,9 @@ In your Activity set the delegate to handle CPX Research events. In Kotlin
 
                 override fun onTransactionsUpdated(unpaidTransactions: List<TransactionItem>) {
                     Log.d("CPX", "transactions updated.")
+                    for (item in unpaidTransactions) {
+                        Log.d("CPX", "${item.earningPublisher}")
+                    }
                 }
 
                 override fun onSurveysDidOpen() {

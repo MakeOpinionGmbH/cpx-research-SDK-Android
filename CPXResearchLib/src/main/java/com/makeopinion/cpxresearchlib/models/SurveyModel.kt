@@ -72,7 +72,7 @@ data class TransactionItem(
      * Earnings of the User
      */
     val earningUser: String
-        get() =  verdienstPublisher
+        get() =  verdienstUserLocalMoney
 
     /**
      * Earnings of the publisher as double type
@@ -84,5 +84,5 @@ data class TransactionItem(
      * Earnings of the user as double type
      */
     val earningUserAsDouble: Double?
-        get() =  verdienstPublisher.toDoubleOrNull()
+        get() =  verdienstUserLocalMoney.toDoubleOrNull()
 }
