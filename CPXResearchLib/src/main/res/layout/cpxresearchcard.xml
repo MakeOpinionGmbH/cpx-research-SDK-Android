@@ -28,6 +28,16 @@
                 android:textSize="14sp"
                 android:textStyle="bold"/>
             <TextView
+                android:layout_marginBottom="-6dp"
+                android:id="@+id/tv_currency_pre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Coins"
+                android:gravity="center_horizontal"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:textStyle="bold"/>
+            <TextView
                 android:id="@+id/tv_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +47,7 @@
                 android:textStyle="bold"/>
             <TextView
                 android:layout_marginTop="-6dp"
-                android:id="@+id/tv_currency"
+                android:id="@+id/tv_currency_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Coins"

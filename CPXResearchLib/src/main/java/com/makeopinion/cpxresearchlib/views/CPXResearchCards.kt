@@ -54,7 +54,8 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
             itemView.tag = survey.id
             val amount = itemView.findViewById(R.id.tv_amount) as TextView
             val amountOriginal = itemView.findViewById(R.id.tv_amount_original) as? TextView
-            val currency = itemView.findViewById(R.id.tv_currency) as TextView
+            val currencyPost = itemView.findViewById(R.id.tv_currency_post) as TextView
+            val currencyPre = itemView.findViewById(R.id.tv_currency_pre) as TextView
             val time = itemView.findViewById(R.id.tv_time) as TextView
             val timeIcon = itemView.findViewById(R.id.iv_time) as? ImageView
             val star1 = itemView.findViewById(R.id.iv_star1) as ImageView
@@ -66,6 +67,10 @@ class CPXResearchCards(private val cpxResearch: CPXResearch,
             val bg = itemView.findViewById(R.id.cv_container) as CardView
             val currencyPrefixImage = itemView.findViewById(R.id.iv_currency_prefix) as? ImageView
             val divider = itemView.findViewById(R.id.view_divider) as? View
+
+            currencyPost.visibility = View.GONE
+            currencyPre.visibility = View.GONE
+            val currency = if (config.showCurrencyBeforeValue) currencyPre else currencyPost
 
             if (survey.hasOfferPayout) {
                 amountOriginal?.visibility = View.VISIBLE

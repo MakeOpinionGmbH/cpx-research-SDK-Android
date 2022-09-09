@@ -27,7 +27,8 @@ class CPXCardConfiguration(
     val fixedWidth: Int,
     @DrawableRes val currencyPrefixImage: Int?,
     val hideCurrencyName: Boolean,
-    val hideRatingAmount: Boolean
+    val hideRatingAmount: Boolean,
+    val showCurrencyBeforeValue: Boolean
 ) {
     class Builder {
         @ColorInt private var accentColor: Int = Color.parseColor("#41d7e5")
@@ -54,6 +55,7 @@ class CPXCardConfiguration(
 
         private var hideCurrencyName: Boolean = false
         private var hideRatingAmount: Boolean = true
+        private var showCurrencyBeforeValue: Boolean = false
 
         /**
          * Color the amount and currency is in.
@@ -244,6 +246,14 @@ class CPXCardConfiguration(
         fun hideRatingAmount(boolean: Boolean) = apply { this.hideRatingAmount = boolean }
 
         /**
+         * Show currency name/symbol in front of the amount.
+         *
+         * @param boolean If set to true the currency name will be shown in before the amount value.
+         * @return This Builder instance.
+         */
+        fun showCurrencyBeforeValue(boolean: Boolean) = apply { this.showCurrencyBeforeValue = boolean }
+
+        /**
          * Generate the CPXCardConfiguration object.
          *
          * @return the CPXCardConfiguration with the set values.
@@ -266,7 +276,8 @@ class CPXCardConfiguration(
                 fixedWidth,
                 currencyPrefixImage,
                 hideCurrencyName,
-                hideRatingAmount)
+                hideRatingAmount,
+                showCurrencyBeforeValue)
     }
 
     fun getWidth(activity: Activity): Int {

@@ -42,7 +42,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.4'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.5'
 }
 ```
 
@@ -138,6 +138,7 @@ protected void onCreate(Bundle savedInstanceState) {
                 //.currencyPrefixImage(R.drawable.cpx_icon_star) // for SMALL style only: set an optional image before the currency text
                 //.hideCurrencyName(true) // hides the currency name behind the amount
                 //.hideRatingAmount(false) // set to false to show the total amount of ratings behind the stars
+                //.showCurrencyBeforeValue(true) // set to true if you want to have the currency name in front (SMALL style) or above (DEFAULT style) of the amount
                 .build();
 
         app.getCpxResearch().insertCPXResearchCardsIntoContainer(this, parentView, cardConfig);

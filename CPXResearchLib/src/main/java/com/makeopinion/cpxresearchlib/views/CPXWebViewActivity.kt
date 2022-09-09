@@ -169,6 +169,19 @@ class CPXWebViewActivity : Activity() {
         listener?.onDidClose()
     }
 
+    override fun onBackPressed() {
+        if (webView?.canGoBack() == true) {
+            webView?.goBack()
+        } else {
+            val showCloseConfirm = intent.getBooleanExtra("confirmCloseDialog", false)
+            if (showCloseConfirm) {
+                showCloseWarning()
+            } else {
+                finish()
+            }
+        }
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView() {
         webView?.let { webView ->

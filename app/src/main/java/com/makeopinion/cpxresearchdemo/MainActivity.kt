@@ -73,6 +73,9 @@ class MainActivity : FragmentActivity() {
 
                 override fun onTransactionsUpdated(unpaidTransactions: List<TransactionItem>) {
                     Log.d("CPX", "transactions updated.")
+                    for (item in unpaidTransactions) {
+                        Log.d("CPX", "${item.earningPublisher}")
+                    }
                 }
 
                 override fun onSurveysDidOpen() {
@@ -115,6 +118,7 @@ class MainActivity : FragmentActivity() {
                     //.currencyPrefixImage(R.drawable.cpx_icon_star)
                     //.hideCurrencyName(true)
                     //.hideRatingAmount(false)
+                    //.showCurrencyBeforeValue(true)
                     .build()
 
             val cardConfigSmall = CPXCardConfiguration.Builder()
@@ -129,6 +133,7 @@ class MainActivity : FragmentActivity() {
                 .fixedCPXCardWidth(146)
                 .currencyPrefixImage(R.drawable.cpx_icon_star)
                 .hideCurrencyName(false)
+                //.showCurrencyBeforeValue(true)
                 .build()
 
             it.cpxResearch().insertCPXResearchCardsIntoContainer(this, llContainerNormal, cardConfigNormal)

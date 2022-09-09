@@ -48,6 +48,18 @@
                     android:maxLines="1"
                     android:layout_marginHorizontal="1dp"/>
                 <TextView
+                    android:id="@+id/tv_currency_pre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Coins"
+                    android:gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#4800AA"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:layout_marginStart="2dp"/>
+                <TextView
                     android:id="@+id/tv_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,7 +70,7 @@
                     android:textColor="#4800AA"
                     android:maxLines="1" />
                 <TextView
-                    android:id="@+id/tv_currency"
+                    android:id="@+id/tv_currency_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Coins"
