@@ -1,6 +1,5 @@
 package com.makeopinion.cpxresearchlib.views
 
-import android.R.attr.bitmap
 import android.app.Activity
 import android.graphics.Color
 import android.view.MotionEvent
@@ -45,9 +44,7 @@ class CPXBannerViewHandler(
         imageView?.let {
             val imageUri = NetworkService.imageUrlFor(configuration)
             Picasso.get().load(imageUri).into(it)
-            /*it.setOnClickListener {
-                listener.onImageTapped()
-            }*/
+
             it.setOnTouchListener(object : View.OnTouchListener {
                 override fun onTouch(view: View?, event: MotionEvent?): Boolean {
                     event?.let { localEvent ->
@@ -61,7 +58,10 @@ class CPXBannerViewHandler(
                         val x = localEvent.x.toInt() * scaleX
                         val y = localEvent.y.toInt() * scaleY
 
-                        if (x < bmp.width && y < bmp.height) {
+                        if (x >= 0
+                            && y >= 0
+                            && x < bmp.width
+                            && y < bmp.height) {
                             val pixel: Int = bmp.getPixel(x, y)
 
                             val redValue: Int = Color.red(pixel)
