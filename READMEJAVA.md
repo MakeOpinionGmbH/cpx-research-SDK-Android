@@ -11,11 +11,15 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 # Table of Contents
 
+- [Demos](#demos)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
 - [ProGuard](#proguard)
 - [Logging](#logging)
+
+# Demos
+Demos for Java and Kotlin can be found [here](https://github.com/MakeOpinionGmbH/cpx-research-SDK-Android-demos)
 
 # Prerequisites
 
@@ -42,7 +46,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.7'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.8'
 }
 ```
 

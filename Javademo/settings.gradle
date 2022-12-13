@@ -1,4 +1,0 @@
-include ':app'
-include ':CPXResearchLib'
-project(':CPXResearchLib').projectDir = new File(settingsDir, '../CPXResearchLib')
-rootProject.name = "Java demo"

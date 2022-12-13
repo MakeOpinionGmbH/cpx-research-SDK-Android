@@ -1,3 +1,2 @@
-include ':app'
 include ':CPXResearchLib'
-rootProject.name = "CPXResearchDemo"
+rootProject.name = "CPXResearchLib"
