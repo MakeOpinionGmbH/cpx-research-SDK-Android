@@ -31,7 +31,9 @@ class CPXResearch(private val configuration: CPXConfiguration) {
     }
 
     private val api = NetworkService()
+    private var _listeners = emptyList<CPXResearchListener>().toMutableList()
     private var listeners = emptyList<CPXResearchListener>().toMutableList()
+        get() = _listeners.toMutableList()
     private var bannerViewHandler: CPXBannerViewHandler? = null
     private var intervalHandler: Handler? = null
     private var hasReceivedSurveys = false
@@ -235,9 +237,19 @@ class CPXResearch(private val configuration: CPXConfiguration) {
      */
     fun registerListener(listener: CPXResearchListener) {
         CPXLogger.f("registerListener($listener)")
-        if (!listeners.contains(listener)) {
-            listeners.add(listener)
+        if (!_listeners.contains(listener)) {
+            _listeners.add(listener)
         }
+    }
+
+    /**
+     * Removes a listener for CPXResearch events
+     *
+     * @param listener The listener to remove. If the listener is no registered this function will do nothing.
+     */
+    fun removeListener(listener: CPXResearchListener) {
+        CPXLogger.f("removeListener($listener)")
+        _listeners.remove(listener)
     }
 
     /**

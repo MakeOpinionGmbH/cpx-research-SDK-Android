@@ -46,7 +46,7 @@ Demos for Java and Kotlin can be found [here](https://github.com/MakeOpinionGmbH
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.8'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.9'
 }
 ```
 
@@ -191,6 +191,13 @@ In your Activity set the delegate to handle CPX Research events. In Kotlin
             })
         }
     }
+```
+
+To remove a listener call
+```kotlin
+(application as? CPXApplication)?.let {
+    it.cpxResearch().removeListener(this)
+}
 ```
 
 ## Additional functions of the SDK

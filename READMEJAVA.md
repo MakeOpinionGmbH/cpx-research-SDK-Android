@@ -46,7 +46,7 @@ Demos for Java and Kotlin can be found [here](https://github.com/MakeOpinionGmbH
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.8'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.5.9'
 }
 ```
 
@@ -189,6 +189,11 @@ app.getCpxResearch().registerListener(new CPXResearchListener() {
 
     }
 });
+```
+
+To remove a listener call
+```java
+    ((CPXApplication) getApplication()).getCpxResearch().removeListener(this);
 ```
 
 ## Additional functions of the SDK
