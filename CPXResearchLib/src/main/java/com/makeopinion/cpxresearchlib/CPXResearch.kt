@@ -32,7 +32,7 @@ class CPXResearch(private val configuration: CPXConfiguration) {
 
     private val api = NetworkService()
     private var _listeners = emptyList<CPXResearchListener>().toMutableList()
-    private var listeners = emptyList<CPXResearchListener>().toMutableList()
+    private val listeners
         get() = _listeners.toMutableList()
     private var bannerViewHandler: CPXBannerViewHandler? = null
     private var intervalHandler: Handler? = null

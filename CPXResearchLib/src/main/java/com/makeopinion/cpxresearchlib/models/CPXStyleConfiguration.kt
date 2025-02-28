@@ -51,12 +51,12 @@ class CPXStyleConfiguration(
 
     fun getGravity(): Int {
         return when (position) {
-            SurveyPosition.SideLeftNormal, SurveyPosition.SideLeftSmall -> Gravity.LEFT or Gravity.CENTER
-            SurveyPosition.SideRightNormal, SurveyPosition.SideRightSmall -> Gravity.RIGHT or Gravity.CENTER
-            SurveyPosition.CornerTopLeft -> Gravity.LEFT or Gravity.TOP
-            SurveyPosition.CornerTopRight -> Gravity.RIGHT or Gravity.TOP
-            SurveyPosition.CornerBottomRight -> Gravity.RIGHT or Gravity.BOTTOM
-            SurveyPosition.CornerBottomLeft -> Gravity.LEFT or Gravity.BOTTOM
+            SurveyPosition.SideLeftNormal, SurveyPosition.SideLeftSmall -> Gravity.START or Gravity.CENTER
+            SurveyPosition.SideRightNormal, SurveyPosition.SideRightSmall -> Gravity.END or Gravity.CENTER
+            SurveyPosition.CornerTopLeft -> Gravity.START or Gravity.TOP
+            SurveyPosition.CornerTopRight -> Gravity.END or Gravity.TOP
+            SurveyPosition.CornerBottomRight -> Gravity.END or Gravity.BOTTOM
+            SurveyPosition.CornerBottomLeft -> Gravity.START or Gravity.BOTTOM
             SurveyPosition.ScreenCenterTop -> Gravity.CENTER or Gravity.TOP
             SurveyPosition.ScreenCenterBottom -> Gravity.CENTER or Gravity.BOTTOM
         }

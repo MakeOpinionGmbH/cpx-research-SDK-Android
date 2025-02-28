@@ -1,5 +1,6 @@
 package com.makeopinion.cpxresearchlib.views
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,7 @@ class ExportLogActivity: Activity() {
         startActivityForResult(intent, CREATE_FILE)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CREATE_FILE

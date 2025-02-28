@@ -169,6 +169,7 @@ class CPXWebViewActivity : Activity() {
         listener?.onDidClose()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (webView?.canGoBack() == true) {
             webView?.goBack()
