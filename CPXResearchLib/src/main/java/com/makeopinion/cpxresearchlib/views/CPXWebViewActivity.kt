@@ -16,6 +16,10 @@ import android.webkit.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.gson.Gson
 import com.makeopinion.cpxresearchlib.NetworkService
 import com.makeopinion.cpxresearchlib.R
@@ -147,6 +151,34 @@ class CPXWebViewActivity : Activity() {
         btnHelp = findViewById(R.id.btn_help)
         btnHome = findViewById(R.id.btn_home)
         progressBar = findViewById(R.id.progressBar)
+
+        bgLinearLayout?.let {
+
+            ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
+                // System Bars (Status Bar, Navigation Bar)
+                val systemBars = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                )
+
+                // Display Cutout
+                val cutout = windowInsets.displayCutout
+
+                // combined
+                val left = maxOf(systemBars.left, cutout?.safeInsetLeft ?: 0)
+                val top = maxOf(systemBars.top, cutout?.safeInsetTop ?: 0)
+                val right = maxOf(systemBars.right, cutout?.safeInsetRight ?: 0)
+                val bottom = maxOf(systemBars.bottom, cutout?.safeInsetBottom ?: 0)
+
+                view.updatePadding(
+                    left = left,
+                    top = top,
+                    right = right,
+                    bottom = bottom
+                )
+
+                WindowInsetsCompat.CONSUMED
+            }
+        }
 
         confirmDialogTitle = configuration?.confirmDialogTitle
         confirmDialogMsg = configuration?.confirmDialogMsg

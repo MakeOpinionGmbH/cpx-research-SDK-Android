@@ -46,7 +46,7 @@ Demos for Java and Kotlin can be found [here](https://github.com/MakeOpinionGmbH
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.6.0'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.6.2'
 }
 ```
 

@@ -61,6 +61,8 @@ class ExportLogActivity: Activity() {
                     finish()
                 }, 1500)
             }
+        } else {
+            finish()
         }
     }
 }
