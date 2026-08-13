@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace "com.makeopinion.cpxresearchlib"
+    compileSdk 37
 
     defaultConfig {
         minSdkVersion 21
-        compileSdk 37
         targetSdkVersion 37
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -32,6 +32,14 @@ project.afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
+                groupId = 'com.makeopinion'
+                artifactId = 'cpxresearchlib'
+                version = '1.8.0'
+            }
+        }
+        repositories {
+            maven {
+                url = uri("https://github.com/MakeOpinionGmbH/cpx-research-SDK-Android")
             }
         }
     }
