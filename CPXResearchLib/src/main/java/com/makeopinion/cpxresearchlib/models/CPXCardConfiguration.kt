@@ -222,7 +222,7 @@ class CPXCardConfiguration(
         fun fixedCPXCardWidth(width: Int) = apply { this.fixedWidth = width }
 
         /**
-         * Sets an 15dp x 17dp icon in front of the currency value on small CPXCardStyle.
+         * Sets a 15dp x 17dp icon in front of the currency value on small CPXCardStyle.
          *
          * @param res The image resource to set in front of the currency value String.
          * @return This Builder instance.

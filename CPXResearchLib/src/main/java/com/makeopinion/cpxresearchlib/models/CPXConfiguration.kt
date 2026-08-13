@@ -17,7 +17,8 @@ class CPXConfiguration(
         val confirmDialogTitle: String?,
         val confirmDialogMsg: String?,
         val confirmDialogLeaveBtnText: String?,
-        val confirmDialogCancelBtnText: String?
+        val confirmDialogCancelBtnText: String?,
+        var webViewConfiguration: CPXWebViewConfiguration
 ): Serializable {
         constructor(builder: CPXConfigurationBuilder) : this(
                 builder.appId,
@@ -31,7 +32,8 @@ class CPXConfiguration(
                 builder.confirmDialogTitle,
                 builder.confirmDialogMsg,
                 builder.confirmDialogLeaveBtnText,
-                builder.confirmDialogCancelBtnText
+                builder.confirmDialogCancelBtnText,
+                builder.webViewConfiguration
         )
 
         fun queryItems(): HashMap<String, String?> {
@@ -50,7 +52,7 @@ class CPXConfiguration(
                         Pair("text", style.text),
                         Pair("textsize", "${style.textSize.toPx()}"),
                         Pair("sdk", "android"),
-                        Pair("sdk_version", "1.6.2"),
+                        Pair("sdk_version", "1.7.0"),
                         Pair("secure_hash", CPXHash.md5("${extUserId}-${secureHash}"))
                 )
 
@@ -85,6 +87,9 @@ class CPXConfigurationBuilder(val appId: String,
         var confirmDialogCancelBtnText: String? = "Cancel"
                 private set
 
+        var webViewConfiguration: CPXWebViewConfiguration = CPXWebViewConfiguration()
+                private set
+
         fun withEmail(email: String) = apply { this.email = email }
 
         fun withSubId1(subId: String) = apply { this.subId1 = subId }
@@ -102,6 +107,8 @@ class CPXConfigurationBuilder(val appId: String,
                 this.confirmDialogLeaveBtnText = leaveButtonText
                 this.confirmDialogCancelBtnText = cancelButtonText
         }
+
+        fun withWebViewConfiguration(configuration: CPXWebViewConfiguration) = apply { this.webViewConfiguration = configuration }
 
         fun build() = CPXConfiguration(this)
 }

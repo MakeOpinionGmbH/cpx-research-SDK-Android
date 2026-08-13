@@ -17,7 +17,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.google.gson.Gson
@@ -259,9 +258,9 @@ class CPXWebViewActivity : Activity() {
                     }
                 }
             }
-            screenshot?.let {
+            screenshot?.let { bitmap ->
                 val supportModel = SupportModel(calledUrls,
-                    bitmapToString(it))
+                    bitmapToString(bitmap))
                 val json = Gson().toJson(supportModel)
 
                 intent.getStringExtra("url")?.let { url ->
@@ -277,7 +276,7 @@ class CPXWebViewActivity : Activity() {
                         }
 
                         override fun onResponse(call: Call, response: Response) {
-                            response.body?.string()?.let {
+                            response.body.string().let {
                                 runOnUiThread {
                                     webView.loadDataWithBaseURL(
                                         intent.getStringExtra("url"),
@@ -302,6 +301,22 @@ class CPXWebViewActivity : Activity() {
 
     private fun setupContent() {
         val showCloseConfirm = intent.getBooleanExtra("confirmCloseDialog", false)
+
+        configuration?.let { config ->
+            val webConfiguration = config.webViewConfiguration
+
+            if (!webConfiguration.allowHelpButton) {
+                btnHelp?.visibility = View.GONE
+            }
+
+            if (!webConfiguration.allowSettingsButton) {
+                btnSettings?.visibility = View.GONE
+            }
+
+            if (!webConfiguration.allowHomeButton) {
+                btnHome?.visibility = View.GONE
+            }
+        }
 
         if (intent.getBooleanExtra("onlyCloseButtonVisible", true)) {
             btnHelp?.visibility = View.GONE
