@@ -17,7 +17,7 @@ import java.io.IOException
 class NetworkService {
 
     companion object {
-        private const val SURVEY_WEB_URL = "https://offers.cpx-research.com/index.php"
+        const val SURVEY_WEB_URL = "https://offers.cpx-research.com/index.php"
         private const val SURVEY_API_URL = "https://live-api.cpx-research.com/api/get-surveys.php"
         private const val IMAGE_API_URL = "https://dyn-image.cpx-research.com/image"
 

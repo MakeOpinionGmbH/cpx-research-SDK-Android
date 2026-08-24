@@ -29,6 +29,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import androidx.core.view.isGone
+import com.makeopinion.cpxresearchlib.models.CPXWebViewConfiguration
+import java.net.URL
 
 
 class CPXWebViewActivity : Activity() {
@@ -49,6 +52,8 @@ class CPXWebViewActivity : Activity() {
     private var confirmDialogMsg: String? = null
     private var confirmDialogLeaveBtnText: String? = null
     private var confirmDialogCancelBtnText: String? = null
+
+    private var currentSite: CurrentSite = CurrentSite.Other
 
     companion object {
         private var listener: CPXWebActivityListener? = null
@@ -225,6 +230,7 @@ class CPXWebViewActivity : Activity() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     url?.let {
                         calledUrls.add(it)
+                        detectCurrentSite(it)
                     }
 
                     if (url != null) {
@@ -246,7 +252,7 @@ class CPXWebViewActivity : Activity() {
                     super.onProgressChanged(view, newProgress)
 
                     progressBar?.let {
-                        if (newProgress < 100 && it.visibility == View.GONE) {
+                        if (newProgress < 100 && it.isGone) {
                             it.visibility = View.VISIBLE
                         }
 
@@ -278,13 +284,17 @@ class CPXWebViewActivity : Activity() {
                         override fun onResponse(call: Call, response: Response) {
                             response.body.string().let {
                                 runOnUiThread {
-                                    webView.loadDataWithBaseURL(
-                                        intent.getStringExtra("url"),
-                                        it,
-                                        "text/html",
-                                        "UTF-8",
-                                        null
-                                    )
+                                    val url = intent.getStringExtra("url")
+                                    url?.let { url ->
+                                        webView.loadDataWithBaseURL(
+                                            url,
+                                            it,
+                                            "text/html",
+                                            "UTF-8",
+                                            null
+                                        )
+                                        detectCurrentSite(url)
+                                    }
                                 }
                             }
                         }
@@ -294,8 +304,23 @@ class CPXWebViewActivity : Activity() {
             } ?: run {
                 intent.getStringExtra("url")?.let {
                     webView.loadUrl(it)
+                    detectCurrentSite(it)
                 }
             }
+        }
+    }
+
+    private fun detectCurrentSite(url: String) {
+        currentSite = if (url.contains(NetworkService.SURVEY_WEB_URL)) {
+            if (url.contains("site=")) {
+                CurrentSite.Other
+            } else if (url.contains("survey_id")) {
+                CurrentSite.Survey
+            } else {
+                CurrentSite.SurveyList
+            }
+        } else {
+            CurrentSite.Other
         }
     }
 
@@ -377,6 +402,32 @@ class CPXWebViewActivity : Activity() {
             return
         }
 
+        when(configuration?.webViewConfiguration?.showCloseConfirmationDialog) {
+            CPXWebViewConfiguration.ShowConfirmationDialog.NEVER -> {
+                this.finish()
+                return
+            }
+
+            CPXWebViewConfiguration.ShowConfirmationDialog.SURVEY_ONLY -> {
+                if (currentSite != CurrentSite.Survey) {
+                    this.finish()
+                    return
+                }
+            }
+
+            CPXWebViewConfiguration.ShowConfirmationDialog.SURVEY_AND_SURVEYLIST -> {
+                if (currentSite != CurrentSite.Survey && currentSite != CurrentSite.SurveyList) {
+                    this.finish()
+                    return
+                }
+            }
+
+            else -> {
+                this.finish()
+                return
+            }
+        }
+
         val builder: AlertDialog.Builder? = let {
             AlertDialog.Builder(it)
         }
@@ -389,6 +440,12 @@ class CPXWebViewActivity : Activity() {
 
         val dialog = builder?.create()
         dialog?.show()
+    }
+
+    enum class CurrentSite {
+        SurveyList,
+        Survey,
+        Other
     }
 }
 

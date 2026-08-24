@@ -46,7 +46,7 @@ Demos for Java and Kotlin can be found [here](https://github.com/MakeOpinionGmbH
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.8.2'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.8.3'
 }
 ```
 
@@ -77,7 +77,14 @@ val config = CPXConfigurationBuilder(
             //.withEmail("user@email.com")
             //.withExtraInfo(arrayOf("value1", "value2"))
             //.withCustomConfirmCloseDialogTexts("Title", "msg", "ok", "cancel")
-            //.withWebViewConfiguration(CPXWebViewConfiguration(allowHelpButton = false, allowSettingsButton = false, allowHomeButton = false))
+            .withWebViewConfiguration(
+                CPXWebViewConfiguration(
+                    allowHelpButton = true,
+                    allowSettingsButton = true,
+                    allowHomeButton = true,
+                    showCloseConfirmationDialog = CPXWebViewConfiguration.ShowConfirmationDialog.SURVEY_AND_SURVEYLIST
+                )
+            )
             .build()
 
 val cpx = CPXResearch.init(config)

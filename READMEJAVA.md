@@ -46,7 +46,7 @@ Demos for Java and Kotlin can be found [here](https://github.com/MakeOpinionGmbH
 
 ```gradle
 dependencies {
-	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.8.2'
+	implementation 'com.github.MakeOpinionGmbH:cpx-research-SDK-Android:1.8.3'
 }
 ```
 
@@ -66,7 +66,12 @@ CPXStyleConfiguration style = new CPXStyleConfiguration(SurveyPosition.SideRight
         "#ffaf20",
         true);
 
-CPXWebViewConfiguration webConf = new CPXWebViewConfiguration(true, true, true);
+CPXWebViewConfiguration webConf = new CPXWebViewConfiguration(
+        true,
+        true,
+        true,
+        CPXWebViewConfiguration.ShowConfirmationDialog.SURVEY_AND_SURVEYLIST
+);
 
 CPXConfiguration config = new CPXConfigurationBuilder("<Your app id>",
         "<Your external user id>",
@@ -77,7 +82,7 @@ CPXConfiguration config = new CPXConfigurationBuilder("<Your app id>",
         //.withEmail("user@email.com")
         //.withExtraInfo(new String[]{"value1", "value2"})
         //.withCustomConfirmCloseDialogTexts("Title", "msg", "ok", "cancel")
-        //.withWebViewConfiguration(webConf)
+        .withWebViewConfiguration(webConf)
         .build();
 
 cpxResearch = CPXResearch.Companion.init(config);
